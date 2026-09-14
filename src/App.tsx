@@ -1,5 +1,3 @@
-"use client";
-
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
 import type { PDFDocumentProxy, RenderTask } from "pdfjs-dist";
 import { ArrowDownToLine, ArrowRight, Check, ChevronLeft, ChevronRight, CircleCheck, FileCheck2, FileText, FolderOpen, Grip, LoaderCircle, LockKeyhole, Minus, MousePointer2, PenLine, Plus, ShieldCheck, Trash2, Upload, X } from "lucide-react";

@@ -1,7 +1,7 @@
 SIGNÉ — SITE COMPLET
 
 Cette archive contient le code source du site, les polices, les outils PDF,
-les composants, la configuration et la version compilée dans dist/.
+les composants et la configuration.
 
 UTILISATION DU SITE
 Importer un PDF, dessiner une signature ou saisir son nom, la placer sur
@@ -10,33 +10,32 @@ le navigateur, sans être envoyés à un serveur.
 
 MODIFIER LE SITE
 Les fichiers principaux sont :
-- app/pdf-editor.tsx : fonctionnement de l’application
-- app/signature-dialog.tsx : création des signatures
-- app/globals.css : présentation et adaptation au téléphone
-- lib/pdf-signing.ts : ajout des signatures au PDF
+- src/App.tsx : fonctionnement de l'application
+- src/signature-dialog.tsx : création des signatures
+- src/styles/globals.css : présentation et adaptation au téléphone
+- src/lib/pdf-signing.ts : ajout des signatures au PDF
 - public/ : polices et fichiers nécessaires à la lecture des PDF
 
 POUR UN DÉVELOPPEUR
-Installer Node.js (version indiquée dans package.json) et la version de
-pnpm indiquée dans packageManager, puis, dans ce dossier :
+Installer Node.js (version 20.19 ou plus récente), puis, dans ce dossier :
 
-  pnpm install
-  pnpm dev
+  npm install
+  npm run dev
 
 Pour reconstruire la version de production :
 
-  pnpm build
+  npm run build
 
-L’archive ne contient pas node_modules : pnpm install réinstalle les
-dépendances à partir de package.json et pnpm-lock.yaml.
-L’historique Git, les caches et les identifiants secrets sont exclus.
+Le dossier node_modules n'est pas fourni : npm install réinstalle les
+dépendances à partir de package.json.
+L'historique Git, les caches et les identifiants secrets sont exclus.
 
 HÉBERGEMENT
-Le projet utilise React et Vinext. La version actuelle est prévue pour
-Sites / Cloudflare Workers. Ce n’est pas un simple fichier HTML à ouvrir
-par double-clic ou à déposer tel quel sur un hébergement PHP.
-Le dossier dist/ contient la compilation de la version fournie.
-La configuration .openai/hosting.json identifie le site existant.
+Le projet est un site 100 % statique construit avec Vite + React. La
+commande `npm run build` produit un dossier dist/ prêt à être déposé sur
+n'importe quel hébergeur (Cloudflare Pages, Netlify, Vercel, GitHub Pages,
+serveur web classique...). Il n'a besoin d'aucune base de données, d'aucun
+serveur applicatif, ni d'aucune plateforme d'hébergement particulière.
 
-Vous pouvez conserver ce ZIP et le fournir à un développeur ou à une IA
+Vous pouvez conserver ce dossier et le fournir à un développeur ou à une IA
 pour demander des modifications ultérieures.

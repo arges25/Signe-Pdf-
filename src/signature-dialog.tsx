@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 import { Check, Eraser, PenLine, Type, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
