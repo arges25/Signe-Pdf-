@@ -1,12 +1,60 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { VitePWA } from "vite-plugin-pwa";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    VitePWA({
+      registerType: "autoUpdate",
+      includeAssets: ["favicon.svg", "favicon-32.png", "apple-touch-icon.png"],
+      manifest: {
+        id: "/",
+        name: "Signé — Signature de PDF",
+        short_name: "Signé",
+        description:
+          "Importez un PDF, ajoutez votre signature et téléchargez le document signé. Vos fichiers restent sur votre appareil.",
+        lang: "fr",
+        dir: "ltr",
+        start_url: "/",
+        scope: "/",
+        display: "standalone",
+        background_color: "#f9fafc",
+        theme_color: "#2457ea",
+        icons: [
+          { src: "/icons/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+          { src: "/icons/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+          { src: "/icons/maskable-192.png", sizes: "192x192", type: "image/png", purpose: "maskable" },
+          { src: "/icons/maskable-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
+        ],
+      },
+      workbox: {
+        // Precache only the app shell (JS/CSS/HTML, icons, the UI fonts). The
+        // pdf.js worker, wasm and per-encoding cmaps are large and lazily
+        // loaded only when actually needed, so they are runtime-cached
+        // instead of bloating the initial install.
+        globPatterns: ["**/*.{js,css,html,svg,png,woff,woff2}"],
+        globIgnores: ["pdf-assets/**"],
+        maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
+        navigateFallback: "/index.html",
+        runtimeCaching: [
+          {
+            urlPattern: ({ url }) => url.pathname.startsWith("/pdf-assets/"),
+            handler: "CacheFirst",
+            options: {
+              cacheName: "pdf-assets",
+              expiration: { maxEntries: 300, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+        ],
+      },
+    }),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(dirname, "./src"),
