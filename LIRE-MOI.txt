@@ -1,0 +1,42 @@
+SIGNÉ — SITE COMPLET
+
+Cette archive contient le code source du site, les polices, les outils PDF,
+les composants, la configuration et la version compilée dans dist/.
+
+UTILISATION DU SITE
+Importer un PDF, dessiner une signature ou saisir son nom, la placer sur
+une page, puis télécharger le PDF signé. Les documents sont traités dans
+le navigateur, sans être envoyés à un serveur.
+
+MODIFIER LE SITE
+Les fichiers principaux sont :
+- app/pdf-editor.tsx : fonctionnement de l’application
+- app/signature-dialog.tsx : création des signatures
+- app/globals.css : présentation et adaptation au téléphone
+- lib/pdf-signing.ts : ajout des signatures au PDF
+- public/ : polices et fichiers nécessaires à la lecture des PDF
+
+POUR UN DÉVELOPPEUR
+Installer Node.js (version indiquée dans package.json) et la version de
+pnpm indiquée dans packageManager, puis, dans ce dossier :
+
+  pnpm install
+  pnpm dev
+
+Pour reconstruire la version de production :
+
+  pnpm build
+
+L’archive ne contient pas node_modules : pnpm install réinstalle les
+dépendances à partir de package.json et pnpm-lock.yaml.
+L’historique Git, les caches et les identifiants secrets sont exclus.
+
+HÉBERGEMENT
+Le projet utilise React et Vinext. La version actuelle est prévue pour
+Sites / Cloudflare Workers. Ce n’est pas un simple fichier HTML à ouvrir
+par double-clic ou à déposer tel quel sur un hébergement PHP.
+Le dossier dist/ contient la compilation de la version fournie.
+La configuration .openai/hosting.json identifie le site existant.
+
+Vous pouvez conserver ce ZIP et le fournir à un développeur ou à une IA
+pour demander des modifications ultérieures.
