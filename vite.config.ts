@@ -49,11 +49,16 @@ export default defineConfig({
         navigateFallback: `${base}index.html`,
         runtimeCaching: [
           {
-            urlPattern: ({ url }) => url.pathname.startsWith(`${base}pdf-assets/`),
-            handler: "CacheFirst",
+            // NOTE: this becomes a standalone function in the generated
+            // service worker (workbox-build stringifies it), so it must not
+            // close over anything from this config file — `base` would be
+            // undefined at runtime and throw on every fetch. Matching on the
+            // path segment alone works regardless of the base prefix.
+            urlPattern: /\/pdf-assets\//,
+            handler: "StaleWhileRevalidate",
             options: {
-              cacheName: "pdf-assets",
-              expiration: { maxEntries: 300, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              cacheName: "pdf-assets-v2",
+              expiration: { maxEntries: 300, maxAgeSeconds: 60 * 60 * 24 * 7 },
               cacheableResponse: { statuses: [0, 200] },
             },
           },

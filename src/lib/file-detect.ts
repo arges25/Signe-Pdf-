@@ -7,7 +7,7 @@
 // attempt to open it fails — never pre-emptively on a heuristic alone.
 
 export type FileKind = "pdf" | "image" | "unsupported";
-export type DetectedFile = { kind: FileKind; mime: string };
+export type DetectedFile = { kind: FileKind; mime: string; signatureMatched: boolean };
 
 const PDF_SIGNATURE = [0x25, 0x50, 0x44, 0x46, 0x2d]; // %PDF-
 const PNG_SIGNATURE = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
@@ -48,21 +48,22 @@ export async function detectFileKind(file: File): Promise<DetectedFile> {
   const head = new Uint8Array(await file.slice(0, 1024).arrayBuffer());
   const ext = extensionOf(file.name);
   const mime = (file.type || "").toLowerCase();
+  const hasPdfSignature = containsPdfSignature(head);
 
-  if (containsPdfSignature(head) || ext === ".pdf" || mime === "application/pdf") {
-    return { kind: "pdf", mime: "application/pdf" };
+  if (hasPdfSignature || ext === ".pdf" || mime === "application/pdf") {
+    return { kind: "pdf", mime: "application/pdf", signatureMatched: hasPdfSignature };
   }
   if (matchesAt(head, 0, PNG_SIGNATURE) || ext === ".png" || mime === "image/png") {
-    return { kind: "image", mime: "image/png" };
+    return { kind: "image", mime: "image/png", signatureMatched: matchesAt(head, 0, PNG_SIGNATURE) };
   }
   if (matchesAt(head, 0, JPEG_SIGNATURE) || ext === ".jpg" || ext === ".jpeg" || mime === "image/jpeg" || mime === "image/jpg") {
-    return { kind: "image", mime: "image/jpeg" };
+    return { kind: "image", mime: "image/jpeg", signatureMatched: matchesAt(head, 0, JPEG_SIGNATURE) };
   }
   if (isWebp(head) || ext === ".webp" || mime === "image/webp") {
-    return { kind: "image", mime: "image/webp" };
+    return { kind: "image", mime: "image/webp", signatureMatched: isWebp(head) };
   }
   if (isHeif(head) || ext === ".heic" || ext === ".heif" || mime === "image/heic" || mime === "image/heif") {
-    return { kind: "image", mime: ext === ".heif" || mime === "image/heif" ? "image/heif" : "image/heic" };
+    return { kind: "image", mime: ext === ".heif" || mime === "image/heif" ? "image/heif" : "image/heic", signatureMatched: isHeif(head) };
   }
-  return { kind: "unsupported", mime };
+  return { kind: "unsupported", mime, signatureMatched: false };
 }
