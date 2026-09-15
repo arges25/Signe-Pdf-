@@ -10,7 +10,23 @@ import { Input } from "@/components/ui/input";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
 import SignatureDialog from "./signature-dialog";
+import ExportDialog from "./export-dialog";
 import { clamp, signPdf, type SignatureAsset, type Stamp } from "@/lib/pdf-signing";
+import { clearSavedSignature, loadSavedSignature, saveSignature } from "@/lib/signature-store";
+
+const supportsFileSystemAccess = typeof window !== "undefined" && typeof window.showSaveFilePicker === "function";
+function supportsShareFiles(): boolean {
+  if (typeof navigator === "undefined" || typeof navigator.canShare !== "function") return false;
+  try {
+    const probe = new File([""], "test.pdf", { type: "application/pdf" });
+    return navigator.canShare({ files: [probe] });
+  } catch { return false; }
+}
+const saveHint = supportsFileSystemAccess
+  ? "Vous pourrez choisir l’emplacement et le nom du fichier."
+  : supportsShareFiles()
+    ? "Utilisez le menu Partager pour l’enregistrer dans Fichiers (iPhone/Android) ou l’envoyer ailleurs."
+    : "Le fichier sera téléchargé par votre navigateur.";
 
 type Drag = { id: string; pointerId: number; clientX: number; clientY: number; x: number; y: number; w: number; h: number; rect: DOMRect };
 type ModelTool = { name: string; description: string; inputSchema: object; annotations: { readOnlyHint: boolean; untrustedContentHint: boolean }; execute: (input: unknown) => unknown };
@@ -47,6 +63,7 @@ export default function PdfEditor() {
   const [placing, setPlacing] = useState(false);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
   const [download, setDownload] = useState<{ url: string; name: string } | null>(null);
+  const [exportOpen, setExportOpen] = useState(false);
   const active = stamps.find(s => s.id === selected);
   const ready = !!pdf && renderedPage === page && !rendering && !loading;
   const currentStep = !pdf ? 1 : stamps.length ? 3 : 2;
@@ -64,6 +81,7 @@ export default function PdfEditor() {
     const observer = new ResizeObserver(([entry]) => setStageWidth(entry.contentRect.width));
     observer.observe(stage); return () => observer.disconnect();
   }, []);
+  useEffect(() => { void loadSavedSignature().then(saved => { if (saved) setAsset(current => current ?? saved); }); }, []);
   useEffect(() => { setPageEntry(String(page)); setSelected(null); }, [page]);
   useEffect(() => () => { void docRef.current?.loadingTask.destroy(); if (objectUrl.current) URL.revokeObjectURL(objectUrl.current); }, []);
   useEffect(() => {
@@ -208,19 +226,66 @@ export default function PdfEditor() {
     if (h > 0.95) return;
     setStamps(items => items.map(s => s.id === active.id ? { ...s, w, h, x: clamp(s.x, 0, 1 - w), y: clamp(s.y, 0, 1 - h) } : s));
   }
-  async function exportPdf() {
+  function deleteSavedSignature() {
+    if (exporting) return;
+    const previous = asset;
+    setAsset(null); setPlacing(false);
+    void clearSavedSignature();
+    toast("Signature enregistrée supprimée de cet appareil", previous ? { action: { label: "Annuler", onClick: () => { setAsset(previous); void saveSignature(previous); } } } : undefined);
+  }
+
+  async function confirmExport(name: string) {
     if (!pdf || !bytesRef.current || !stamps.length || busyRef.current) return;
-    busyRef.current = true; setExporting(true); setError(""); setPlacing(false);
+    const finalName = `${name}.pdf`;
+    busyRef.current = true; setExporting(true); setError("");
     try {
+      // Ask for a save location first, before signing, so the picker still
+      // benefits from the user gesture that triggered this handler.
+      let handle: FileSystemFileHandle | null = null;
+      if (supportsFileSystemAccess) {
+        try {
+          handle = await window.showSaveFilePicker!({
+            suggestedName: finalName,
+            types: [{ description: "Document PDF", accept: { "application/pdf": [".pdf"] } }],
+          });
+        } catch (e) {
+          if ((e as Error).name === "AbortError") return; // user cancelled the picker
+          handle = null; // unexpected failure: fall back to another method
+        }
+      }
+
       const signed = await signPdf(bytesRef.current, pdf, stamps);
       const blob = new Blob([new Uint8Array(signed)], { type: "application/pdf" });
+
+      if (handle) {
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        toast.success("Votre PDF signé a été enregistré.");
+        setExportOpen(false);
+        return;
+      }
+
+      const file = new File([blob], finalName, { type: "application/pdf" });
+      if (typeof navigator.canShare === "function" && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({ files: [file], title: finalName });
+          toast.success("Votre PDF signé est prêt.");
+          setExportOpen(false);
+          return;
+        } catch (e) {
+          if ((e as Error).name === "AbortError") return; // user cancelled the share sheet
+          // unexpected failure: fall back to a plain download below
+        }
+      }
+
       if (objectUrl.current) URL.revokeObjectURL(objectUrl.current);
       const url = URL.createObjectURL(blob); objectUrl.current = url;
-      const name = filename.replace(/\.pdf$/i, "") + "-signe.pdf";
-      setDownload({ url, name });
-      const link = document.createElement("a"); link.href = url; link.download = name;
+      setDownload({ url, name: finalName });
+      const link = document.createElement("a"); link.href = url; link.download = finalName;
       document.body.appendChild(link); link.click(); link.remove();
       toast.success("Votre PDF signé est prêt.");
+      setExportOpen(false);
     } catch { setError("Le téléchargement n’a pas pu être préparé. Réessayez avec ce PDF ou une copie non protégée."); }
     finally { busyRef.current = false; setExporting(false); }
   }
@@ -244,11 +309,11 @@ export default function PdfEditor() {
               : <p className="section-copy">Importez le PDF que vous souhaitez signer.</p>}
           </section>
           <section className={`tool-section signature-section ${!pdf ? "section-waiting" : ""}`}><div className="section-heading"><span className="section-number">02</span><h2>Votre signature</h2></div>
-            {asset ? <><button className="saved-signature" disabled={!ready || exporting} onClick={() => setPlacing(true)} aria-label="Placer votre signature sur le PDF"><img src={asset.dataUrl} alt="Votre signature" /><Plus size={16} className="signature-plus" /></button><Button variant="outline" className="add-signature" disabled={!ready || exporting} onClick={() => setPlacing(!placing)}><Plus />{placing ? "Cliquez sur la page…" : "Placer sur la page"}</Button><Button variant="ghost" className="new-signature" disabled={!pdf || exporting || loading} onClick={() => setSignatureOpen(true)}>Créer une autre signature</Button></>
-              : <><p className="section-copy">Une touche personnelle.<br />Dessinez-la ou saisissez votre nom.</p><Button variant="outline" className="add-signature" disabled={!ready || exporting} onClick={() => setSignatureOpen(true)}><PenLine /> Créer ma signature</Button></>}
+            {asset ? <><button className="saved-signature" disabled={!ready || exporting} onClick={() => setPlacing(true)} aria-label="Placer votre signature sur le PDF"><img src={asset.dataUrl} alt="Votre signature" /><Plus size={16} className="signature-plus" /></button><Button variant="outline" className="add-signature" disabled={!ready || exporting} onClick={() => setPlacing(!placing)}><Plus />{placing ? "Cliquez sur la page…" : "Placer sur la page"}</Button><div className="saved-signature-actions"><Button variant="ghost" className="new-signature" disabled={exporting || loading} onClick={() => setSignatureOpen(true)}>Modifier ma signature</Button><Button variant="ghost" className="forget-signature" disabled={exporting || loading} onClick={deleteSavedSignature}>Supprimer ma signature enregistrée</Button></div></>
+              : <><p className="section-copy">Une touche personnelle.<br />Dessinez-la ou saisissez votre nom.</p><Button variant="outline" className="add-signature" disabled={exporting} onClick={() => setSignatureOpen(true)}><PenLine /> Créer ma signature</Button></>}
             {active && <div className="selection-controls"><div className="size-label"><label id="signature-size-label">Taille de la signature</label><span>{Math.round(active.w * 100)} %</span></div><Slider min={5} max={Math.floor(Math.min(75, 95 * dimensions.height / dimensions.width * active.width / active.height))} step={1} value={[Math.round(active.w * 100)]} onValueChange={([value]) => resizeStamp(value)} aria-labelledby="signature-size-label" disabled={exporting} /><p className="move-hint"><Grip size={14} /> Faites glisser pour la déplacer.</p><Button variant="ghost" className="delete-signature" onClick={() => removeStamp(active.id)} disabled={exporting}><Trash2 /> Supprimer cette signature</Button></div>}
           </section>
-          <section className="tool-section export-section"><div className="section-heading"><span className="section-number">03</span><h2>C’est signé</h2></div><p className="section-copy">{stamps.length ? `${stamps.length} signature${stamps.length > 1 ? "s" : ""} ajoutée${stamps.length > 1 ? "s" : ""} au document.` : "Votre PDF signé, prêt à télécharger."}</p><Button className="primary-button export-button" onClick={exportPdf} disabled={!pdf || !stamps.length || loading || exporting}>{exporting ? <LoaderCircle className="spin" /> : <ArrowDownToLine />}{exporting ? "Préparation du PDF…" : "Télécharger le PDF"}</Button><div className="privacy-note"><LockKeyhole size={14} /><span>Aucun document envoyé en ligne</span></div></section>
+          <section className="tool-section export-section"><div className="section-heading"><span className="section-number">03</span><h2>C’est signé</h2></div><p className="section-copy">{stamps.length ? `${stamps.length} signature${stamps.length > 1 ? "s" : ""} ajoutée${stamps.length > 1 ? "s" : ""} au document.` : "Votre PDF signé, prêt à télécharger."}</p><Button className="primary-button export-button" onClick={() => { setPlacing(false); setExportOpen(true); }} disabled={!pdf || !stamps.length || loading || exporting}>{exporting ? <LoaderCircle className="spin" /> : <ArrowDownToLine />}{exporting ? "Préparation du PDF…" : "Télécharger le PDF"}</Button><div className="privacy-note"><LockKeyhole size={14} /><span>Aucun document envoyé en ligne</span></div></section>
         </aside>
         <section className="document-workspace" aria-label="Aperçu du document">
           <div className="document-toolbar"><div className="toolbar-name"><FileText size={16} /><span>{pdf ? filename : "Aperçu du document"}</span></div><div className="zoom-controls"><Button variant="ghost" size="icon" aria-label="Réduire l’aperçu" disabled={!pdf || zoom <= 0.5 || exporting} onClick={() => setZoom(z => Math.max(0.5, z - 0.25))}><Minus /></Button><button className="zoom-value" disabled={!pdf} onClick={() => setZoom(1)} title="Ajuster à la largeur">{Math.round(zoom * 100)} %</button><Button variant="ghost" size="icon" aria-label="Agrandir l’aperçu" disabled={!pdf || zoom >= 2.5 || exporting} onClick={() => setZoom(z => Math.min(2.5, z + 0.25))}><Plus /></Button></div></div>
@@ -270,8 +335,13 @@ export default function PdfEditor() {
       <footer className="page-footer"><span>Un document. Une signature. C’est tout.</span><span>Signature visuelle ajoutée au PDF</span></footer>
     </main>
     <input ref={fileInput} type="file" accept="application/pdf,.pdf" className="sr-only" tabIndex={-1} onChange={e => { chooseFile(e.target.files?.[0]); e.target.value = ""; }} aria-label="Importer un fichier PDF" />
-    <SignatureDialog open={signatureOpen} onOpenChange={setSignatureOpen} onSave={signature => { setAsset(signature); setPlacing(true); toast("Signature prête : touchez la page pour la placer."); }} />
+    <SignatureDialog open={signatureOpen} onOpenChange={setSignatureOpen} onSave={signature => {
+      setAsset(signature); void saveSignature(signature);
+      if (ready) { setPlacing(true); toast("Signature prête : touchez la page pour la placer."); }
+      else toast("Signature enregistrée sur cet appareil. Elle sera proposée pour chaque PDF.");
+    }} />
     <Dialog open={!!pendingFile} onOpenChange={open => { if (!open) setPendingFile(null); }}><DialogContent className="replace-dialog" showCloseButton={false}><DialogTitle>Ouvrir un autre PDF ?</DialogTitle><DialogDescription>Les signatures placées sur le document actuel seront retirées. Pensez à télécharger votre PDF signé avant de continuer.</DialogDescription><div className="replace-actions"><DialogClose asChild><Button variant="outline">Garder ce document</Button></DialogClose><Button onClick={() => { const file = pendingFile; setPendingFile(null); if (file) void loadFile(file); }}>Ouvrir le nouveau PDF</Button></div></DialogContent></Dialog>
+    <ExportDialog open={exportOpen} onOpenChange={setExportOpen} defaultName={filename.replace(/\.pdf$/i, "") + "-signe"} saveHint={saveHint} onConfirm={confirmExport} />
     <Toaster position="bottom-center" theme="light" richColors closeButton />
   </div>;
 }

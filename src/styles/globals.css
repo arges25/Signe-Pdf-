@@ -153,7 +153,9 @@ h1 { font-size: 30px; font-weight: 750; letter-spacing: -1px; line-height: 1.5; 
 .saved-signature { height: 90px; width: 100%; position: relative; border: 1px solid #dce5f7; background: #f8faff; border-radius: 9px; padding: 16px 25px; margin-bottom: 12px; }
 .saved-signature img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .signature-plus { position: absolute; top: 8px; right: 8px; color: #2457ea; }
-.new-signature { display: flex; margin: 5px auto 0; font-size: 12px; height: 35px; color: #66758c; }
+.saved-signature-actions { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 2px 14px; margin-top: 5px; }
+.new-signature { font-size: 12px; height: 35px; color: #66758c; }
+.forget-signature { font-size: 12px; height: 35px; color: #ad4250; }
 .selection-controls { border-top: 1px solid #e8edf5; margin-top: 19px; padding-top: 18px; }
 .size-label { display: flex; justify-content: space-between; font-size: 13px; color: #556780; margin-bottom: 17px; }
 .size-label span { font-variant-numeric: tabular-nums; color: #2457ea; }
@@ -244,6 +246,16 @@ h1 { font-size: 30px; font-weight: 750; letter-spacing: -1px; line-height: 1.5; 
 .replace-dialog { border-radius: 16px; }
 .replace-dialog [data-slot="dialog-description"] { line-height: 1.8; }
 .replace-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 10px; }
+.export-dialog { border-radius: 16px; max-width: 420px !important; gap: 17px; }
+.export-dialog [data-slot="dialog-description"] { line-height: 1.8; }
+.filename-field { display: flex; align-items: center; gap: 8px; }
+.filename-field input { flex: 1; height: 43px; font-size: 16px; min-width: 0; }
+.filename-suffix { color: #8590a1; font-size: 14px; flex-shrink: 0; }
+.format-field { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; background: #f6f8fc; border: 1px solid #e5eaf3; border-radius: 8px; }
+.format-value { font-weight: 650; font-size: 14px; color: #18263c; }
+.format-value span { font-weight: 400; color: #768197; font-size: 12px; }
+.export-hint { font-size: 12px; color: #768197; line-height: 1.6; margin: -6px 0 0; }
+.export-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 10px; margin-top: 2px; }
 .spin { animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @media (min-width: 1500px) { .document-stage { height: 640px; }.main-content { padding-top: 46px; }.workspace-heading { margin-bottom: 32px; } }
@@ -256,7 +268,7 @@ h1 { font-size: 30px; font-weight: 750; letter-spacing: -1px; line-height: 1.5; 
   .empty-stage { min-height: 386px; height: auto; padding: 21px 15px; }.upload-zone { min-height: 330px; padding: 25px 15px 19px; gap: 20px; }.upload-icon { width: 60px; height: 68px; border-radius: 13px; margin-bottom: 13px; }.upload-icon > svg { width: 31px; }.upload-title { font-size: 22px; }.upload-description { font-size: 13px; line-height: 1.8; }.upload-footer { font-size: 12px; padding-top: 14px; }.upload-button { padding: 0 18px !important; font-size: 14px; }.upload-meta { font-size: 12px; }
   .document-stage:not(.empty-stage) { height: 53dvh; min-height: 310px; max-height: 600px; padding: 17px 0; flex: none; }.document-status { padding: 7px 11px; gap: 8px; min-height: 44px; }.page-pagination { margin-left: auto; }.page-pagination button { height: 36px; width: 36px; }.page-input-wrap input { width: 46px; height: 34px; font-size: 16px; }.status-tip { font-size: 12px; line-height: 1.6; }.document-status:has(.cancel-placement) .status-tip { width: 100%; }.status-format { font-size: 12px; }.cancel-placement { margin-left: auto; }
   .page-footer { font-size: 12px; flex-direction: column; align-items: center; gap: 3px; padding: 18px 5px; }.saved-signature { height: 76px; }.new-signature { font-size: 13px; }.size-label { font-size: 14px; }.selection-controls { padding-top: 17px; }.selection-controls [data-slot="slider"] { height: 22px; }.selection-controls [data-slot="slider-thumb"] { width: 21px; height: 21px; }.move-hint, .delete-signature, .privacy-note { font-size: 12px; }.delete-signature { height: 38px; }
-  .signature-dialog { padding: 25px 20px 22px; max-height: 92dvh; gap: 16px; }.dialog-title { font-size: 21px; padding-right: 10px; }.dialog-symbol { width: 40px; height: 40px; margin-bottom: 8px; }.dialog-close { top: 12px; right: 12px; }.drawing-hint span { font-size: 30px; }.drawing-bottom { font-size: 12px; }.drawing-area canvas { aspect-ratio: 1000/420; height: auto; }.typed-preview { font-size: 37px; }.ink-options { font-size: 13px; }.signature-tabs button { font-size: 13px; }.download-banner { padding: 12px; }.download-banner > svg { display: none; }.replace-actions { flex-direction: column-reverse; }.replace-actions button { width: 100%; }
+  .signature-dialog { padding: 25px 20px 22px; max-height: 92dvh; gap: 16px; }.dialog-title { font-size: 21px; padding-right: 10px; }.dialog-symbol { width: 40px; height: 40px; margin-bottom: 8px; }.dialog-close { top: 12px; right: 12px; }.drawing-hint span { font-size: 30px; }.drawing-bottom { font-size: 12px; }.drawing-area canvas { aspect-ratio: 1000/420; height: auto; }.typed-preview { font-size: 37px; }.ink-options { font-size: 13px; }.signature-tabs button { font-size: 13px; }.download-banner { padding: 12px; }.download-banner > svg { display: none; }.replace-actions { flex-direction: column-reverse; }.replace-actions button { width: 100%; }.export-dialog { padding: 25px 20px 22px; max-height: 92dvh; gap: 15px; }.export-actions { flex-direction: column-reverse; }.export-actions button { width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
 
