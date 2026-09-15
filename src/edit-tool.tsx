@@ -48,7 +48,7 @@ function defaultTextValue(text = ""): TextElementValue {
   return { text, fontSize: DEFAULT_TEXT_SIZE, color: DEFAULT_TEXT_COLOR, bold: false, italic: false, align: "left" };
 }
 
-export default function EditTool({ onBack, onSignThis }: { onBack?: () => void; onSignThis: (file: File) => void }) {
+export default function EditTool({ onBack, onSignThis, handoff }: { onBack?: () => void; onSignThis: (file: File) => void; handoff?: { file: File; token: number } | null }) {
   const fileInput = useRef<HTMLInputElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const pageRef = useRef<HTMLDivElement>(null);
@@ -192,6 +192,9 @@ export default function EditTool({ onBack, onSignThis }: { onBack?: () => void; 
       toast.success("Votre PDF est prêt à être corrigé.");
     } finally { busyRef.current = false; setLoading(false); }
   }, []);
+
+  const handoffToken = handoff?.token;
+  useEffect(() => { if (handoff) void loadFile(handoff.file); }, [handoffToken]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function chooseFile(file?: File) {
     if (!file || busyRef.current) return;
