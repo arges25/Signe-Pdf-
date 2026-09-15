@@ -39,6 +39,8 @@ jobs:
 
       - name: Préparer la publication GitHub Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: Empaqueter le site construit
         uses: actions/upload-pages-artifact@v3
