@@ -6,30 +6,36 @@ import { fileURLToPath } from "node:url";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// Most hosts (Netlify, Vercel, Cloudflare Pages...) serve the site from the
+// domain root. GitHub Pages serves a project site from a /<repo>/ subpath,
+// so the CI workflow that deploys there sets VITE_BASE_PATH accordingly.
+const base = process.env.VITE_BASE_PATH || "/";
+
 export default defineConfig({
+  base,
   plugins: [
     react(),
     VitePWA({
       registerType: "autoUpdate",
       includeAssets: ["favicon.svg", "favicon-32.png", "apple-touch-icon.png"],
       manifest: {
-        id: "/",
+        id: base,
         name: "Signé — Signature de PDF",
         short_name: "Signé",
         description:
           "Importez un PDF, ajoutez votre signature et téléchargez le document signé. Vos fichiers restent sur votre appareil.",
         lang: "fr",
         dir: "ltr",
-        start_url: "/",
-        scope: "/",
+        start_url: base,
+        scope: base,
         display: "standalone",
         background_color: "#f9fafc",
         theme_color: "#2457ea",
         icons: [
-          { src: "/icons/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
-          { src: "/icons/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
-          { src: "/icons/maskable-192.png", sizes: "192x192", type: "image/png", purpose: "maskable" },
-          { src: "/icons/maskable-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
+          { src: `${base}icons/icon-192.png`, sizes: "192x192", type: "image/png", purpose: "any" },
+          { src: `${base}icons/icon-512.png`, sizes: "512x512", type: "image/png", purpose: "any" },
+          { src: `${base}icons/maskable-192.png`, sizes: "192x192", type: "image/png", purpose: "maskable" },
+          { src: `${base}icons/maskable-512.png`, sizes: "512x512", type: "image/png", purpose: "maskable" },
         ],
       },
       workbox: {
@@ -40,10 +46,10 @@ export default defineConfig({
         globPatterns: ["**/*.{js,css,html,svg,png,woff,woff2}"],
         globIgnores: ["pdf-assets/**"],
         maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
-        navigateFallback: "/index.html",
+        navigateFallback: `${base}index.html`,
         runtimeCaching: [
           {
-            urlPattern: ({ url }) => url.pathname.startsWith("/pdf-assets/"),
+            urlPattern: ({ url }) => url.pathname.startsWith(`${base}pdf-assets/`),
             handler: "CacheFirst",
             options: {
               cacheName: "pdf-assets",

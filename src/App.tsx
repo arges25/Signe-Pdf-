@@ -129,8 +129,9 @@ export default function PdfEditor() {
       const { PDFDocument } = await import("pdf-lib");
       await PDFDocument.load(bytes, { updateMetadata: false });
       const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
-      pdfjs.GlobalWorkerOptions.workerSrc = "/pdf-assets/pdf.worker.min.mjs";
-      const task = pdfjs.getDocument({ data: bytes.slice(), cMapUrl: "/pdf-assets/cmaps/", cMapPacked: true, standardFontDataUrl: "/pdf-assets/standard_fonts/", wasmUrl: "/pdf-assets/wasm/" });
+      const assetsUrl = `${import.meta.env.BASE_URL}pdf-assets/`;
+      pdfjs.GlobalWorkerOptions.workerSrc = `${assetsUrl}pdf.worker.min.mjs`;
+      const task = pdfjs.getDocument({ data: bytes.slice(), cMapUrl: `${assetsUrl}cmaps/`, cMapPacked: true, standardFontDataUrl: `${assetsUrl}standard_fonts/`, wasmUrl: `${assetsUrl}wasm/` });
       try { newDoc = await task.promise; } catch (e) { await task.destroy(); throw e; }
       if (!newDoc.numPages) throw new Error("Ce document ne contient aucune page.");
       const first = await newDoc.getPage(1);
