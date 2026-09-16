@@ -8,7 +8,11 @@ import type { SignatureAsset } from "./pdf-signing";
 // browsing modes).
 
 const DB_NAME = "signe-pdf";
-const DB_VERSION = 1;
+// Kept in sync with doc-drafts-store.ts, which shares this database (a
+// "documents" store was added there in version 2) — both modules must
+// request the same version, since IndexedDB refuses to open a database
+// at a version lower than one it's already been upgraded to.
+const DB_VERSION = 2;
 const STORE_NAME = "signatures";
 const RECORD_KEY = "saved-signature";
 const LOCAL_STORAGE_KEY = "signe:saved-signature";
@@ -19,6 +23,9 @@ function openDatabase(): Promise<IDBDatabase> {
     request.onupgradeneeded = () => {
       if (!request.result.objectStoreNames.contains(STORE_NAME)) {
         request.result.createObjectStore(STORE_NAME);
+      }
+      if (!request.result.objectStoreNames.contains("documents")) {
+        request.result.createObjectStore("documents", { keyPath: "id" });
       }
     };
     request.onsuccess = () => resolve(request.result);

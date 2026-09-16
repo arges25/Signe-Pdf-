@@ -1,6 +1,6 @@
-import { ArrowRight, FileEdit, PenLine, ScanLine, ShieldCheck } from "lucide-react";
+import { ArrowRight, FileEdit, FileText, PenLine, ScanLine, ShieldCheck } from "lucide-react";
 
-export default function Home({ onSign, onEdit, onScan }: { onSign: () => void; onEdit: () => void; onScan: () => void }) {
+export default function Home({ onSign, onEdit, onScan, onCreate }: { onSign: () => void; onEdit: () => void; onScan: () => void; onCreate: () => void }) {
   return <div className="app-shell">
     <header className="site-header">
       <div className="brand" aria-label="Signé"><span className="brand-icon"><PenLine size={23} strokeWidth={1.9} /></span><span>Signé<span className="brand-period">.</span></span></div>
@@ -30,6 +30,12 @@ export default function Home({ onSign, onEdit, onScan }: { onSign: () => void; o
           <span className="home-card-icon home-card-icon-scan"><ScanLine size={26} /></span>
           <h2>Scanner / Image vers PDF</h2>
           <p>Photographiez ou importez un document, corrigez la perspective et créez un PDF.</p>
+          <span className="home-card-cta">Commencer <ArrowRight size={16} /></span>
+        </button>
+        <button type="button" className="home-card" onClick={onCreate}>
+          <span className="home-card-icon home-card-icon-create"><FileText size={26} /></span>
+          <h2>Créer un document</h2>
+          <p>Rédigez une lettre ou une attestation à partir d’un modèle, puis signez ou exportez.</p>
           <span className="home-card-cta">Commencer <ArrowRight size={16} /></span>
         </button>
       </div>
