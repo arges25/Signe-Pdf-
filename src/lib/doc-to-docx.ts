@@ -1,5 +1,6 @@
 import { parsePageBlocks, type BlockKind, type InlineRun } from "./doc-html-parse";
 import type { Stamp } from "./pdf-signing";
+import { unlockDocxImageResize } from "./docx-unlock-images";
 
 function cssColorToHex(css: string): string {
   const el = document.createElement("div");
@@ -81,5 +82,5 @@ export async function renderDocumentDocx(pagesHtml: string[], signatures: Stamp[
     }],
   });
 
-  return Packer.toBlob(doc);
+  return unlockDocxImageResize(await Packer.toBlob(doc));
 }

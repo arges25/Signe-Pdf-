@@ -1,4 +1,5 @@
 import type { SignatureAsset } from "@/lib/pdf-signing";
+import { unlockDocxImageResize } from "@/lib/docx-unlock-images";
 import type { CvData } from "../types/cv-data";
 import type { CvTheme } from "../types/theme";
 import type { CvTemplateConfig } from "../types/template";
@@ -166,5 +167,5 @@ export async function renderCvDocx(data: CvData, theme: CvTheme, template: CvTem
     sections: [{ properties: { page: { margin: { top: 900, bottom: 900, left: 900, right: 900 } } }, children: bodyChildren }],
   });
 
-  return Packer.toBlob(doc);
+  return unlockDocxImageResize(await Packer.toBlob(doc));
 }
