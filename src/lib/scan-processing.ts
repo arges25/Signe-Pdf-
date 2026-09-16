@@ -8,7 +8,7 @@ import type { Rotation, ScanPage } from "./scan-types";
 // downscaled once at import time and the original ImageBitmap is closed
 // immediately after, rather than keeping several full-resolution copies
 // alive at once while the user scans multiple pages.
-const WORKING_MAX_DIM = 1900;
+const WORKING_MAX_DIM = 2400;
 
 export async function decodeToWorkingCanvas(file: File): Promise<HTMLCanvasElement> {
   const bitmap = await createImageBitmap(file);

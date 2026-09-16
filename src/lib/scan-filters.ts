@@ -70,6 +70,20 @@ function otsuThreshold(data: Uint8ClampedArray): number {
   return best;
 }
 
+// Pushes already-light pixels (paper background, page shadows) further
+// toward white while leaving darker pixels — i.e. text — alone, since
+// only values above `threshold` are affected. This is what actually
+// flattens an uneven, shadowed or slightly grey background into a clean
+// white page without thinning or blowing out the text itself.
+function boostHighlights(data: Uint8ClampedArray, threshold: number, strength: number) {
+  for (let i = 0; i < data.length; i += 4) {
+    for (let c = 0; c < 3; c++) {
+      const v = data[i + c];
+      if (v > threshold) data[i + c] = Math.min(255, v + (255 - v) * strength);
+    }
+  }
+}
+
 // Cheap 3x3 sharpen (unsharp-mask-like) convolution, applied in place on a
 // fresh copy so neighbours read the original values.
 function sharpen(data: Uint8ClampedArray, width: number, height: number, amount = 0.35) {
@@ -94,7 +108,8 @@ export function applyScanFilter(canvas: HTMLCanvasElement, filter: ScanFilter) {
 
   switch (filter) {
     case "color":
-      channelStretch(data, 0.4);
+      channelStretch(data, 0.3);
+      boostHighlights(data, 195, 0.5);
       break;
     case "grayscale":
       toGrayscale(data);
@@ -116,9 +131,10 @@ export function applyScanFilter(canvas: HTMLCanvasElement, filter: ScanFilter) {
       break;
     }
     case "auto":
-      channelStretch(data, 0.5);
-      applyContrast(data, 12);
-      sharpen(data, canvas.width, canvas.height, 0.25);
+      channelStretch(data, 0.3);
+      applyContrast(data, 20);
+      boostHighlights(data, 185, 0.65);
+      sharpen(data, canvas.width, canvas.height, 0.4);
       break;
   }
   ctx.putImageData(imageData, 0, 0);

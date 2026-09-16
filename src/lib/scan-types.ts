@@ -25,8 +25,11 @@ export const QUALITY_DESCRIPTIONS: Record<ScanQuality, string> = {
 // the JPEG encoder quality factor. Physical PDF page size (see
 // scan-to-pdf.ts) stays constant across tiers — only pixel density and
 // compression change, which is what actually trades size for sharpness.
+// Kept at or below WORKING_MAX_DIM (scan-processing.ts) so "Maximum" can
+// actually reach its own target instead of being capped by the working
+// copy's resolution.
 export const QUALITY_PRESETS: Record<ScanQuality, { maxDim: number; jpegQuality: number }> = {
-  standard: { maxDim: 1250, jpegQuality: 0.62 },
-  high: { maxDim: 1700, jpegQuality: 0.78 },
-  maximum: { maxDim: 2100, jpegQuality: 0.9 },
+  standard: { maxDim: 1500, jpegQuality: 0.72 },
+  high: { maxDim: 2000, jpegQuality: 0.85 },
+  maximum: { maxDim: 2400, jpegQuality: 0.94 },
 };
