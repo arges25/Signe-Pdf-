@@ -49,7 +49,12 @@ export default defineConfig({
         // CV actually selects are ever needed — so, like pdf-assets, it's
         // fetched and cached at runtime on first use instead of being
         // downloaded on every install.
-        globIgnores: ["pdf-assets/**", "fonts/cv/**"],
+        // fontkit (used to embed the CV builder's chosen fonts into an
+        // exported PDF) is a large, dynamically-imported chunk needed only
+        // at export time — like pdf-assets, it's cached on first real use
+        // via the runtimeCaching rule below instead of being downloaded on
+        // every install.
+        globIgnores: ["pdf-assets/**", "fonts/cv/**", "assets/fontkit*"],
         maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
         navigateFallback: `${base}index.html`,
         runtimeCaching: [
@@ -73,6 +78,15 @@ export default defineConfig({
             options: {
               cacheName: "cv-fonts-v1",
               expiration: { maxEntries: 60, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+          {
+            urlPattern: /\/assets\/fontkit/,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "fontkit-v1",
+              expiration: { maxEntries: 5, maxAgeSeconds: 60 * 60 * 24 * 30 },
               cacheableResponse: { statuses: [0, 200] },
             },
           },

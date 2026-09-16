@@ -15,5 +15,5 @@ export default function CvQr({ url, sizePt }: { url: string; sizePt: number }) {
     return () => { cancelled = true; };
   }, [url]);
   if (!url.trim() || !dataUrl) return null;
-  return <img src={dataUrl} alt="QR" style={{ width: sizePt, height: sizePt, display: "block" }} />;
+  return <img src={dataUrl} alt="QR" style={{ width: `${sizePt}pt`, height: `${sizePt}pt`, display: "block" }} />;
 }

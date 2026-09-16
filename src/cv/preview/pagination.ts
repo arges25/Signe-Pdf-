@@ -82,6 +82,29 @@ export type CvPage = { main: FlowBlock[]; sidebar: FlowBlock[] };
 const HEADER_HEIGHT_ESTIMATE: Record<string, number> = { classic: 96, banner: 150, centered: 110, split: 120, "sidebar-photo": 0 };
 const SIDEBAR_HEADER_HEIGHT_ESTIMATE = 165; // photo + name/title + a vertical contact list, stacked in the sidebar
 
+// Pure — no React, no font-loading wait. Used directly by both
+// useCvPagination (preview) and the PDF exporter, so the two always agree
+// on exactly which blocks land on which page: "editor page N = PDF page
+// N" the same way it does for the document tool.
+export function computeCvPages(data: CvData, theme: CvTheme, template: CvTemplateConfig, mainWidthPt: number, sidebarWidthPt: number): CvPage[] {
+  const usableHeight = A4_HEIGHT_PT - theme.margin * 2;
+  const isSidebarHeader = theme.columns === 2 && template.headerVariant === "sidebar-photo";
+  const { main, sidebar } = buildFlowBlocks(data, theme.columns === 2 ? template.sidebarSections : []);
+
+  const mainHeaderHeight = isSidebarHeader ? 0 : (HEADER_HEIGHT_ESTIMATE[template.headerVariant] ?? 96);
+  const mainPages = paginateColumn(main, data, theme, mainWidthPt, template.experienceVariant, usableHeight - mainHeaderHeight, usableHeight);
+
+  const sidebarHeaderHeight = isSidebarHeader ? SIDEBAR_HEADER_HEIGHT_ESTIMATE : 0;
+  const sidebarPages = theme.columns === 2
+    ? paginateColumn(sidebar, data, theme, sidebarWidthPt, template.experienceVariant, usableHeight - sidebarHeaderHeight, usableHeight)
+    : [[]];
+
+  const count = Math.max(mainPages.length, theme.columns === 2 ? sidebarPages.length : 1, 1);
+  const out: CvPage[] = [];
+  for (let i = 0; i < count; i++) out.push({ main: mainPages[i] ?? [], sidebar: sidebarPages[i] ?? [] });
+  return out;
+}
+
 export function useCvPagination(data: CvData, theme: CvTheme, template: CvTemplateConfig, mainWidthPt: number, sidebarWidthPt: number): { pages: CvPage[]; ready: boolean } {
   const [ready, setReady] = useState(false);
 
@@ -98,22 +121,7 @@ export function useCvPagination(data: CvData, theme: CvTheme, template: CvTempla
   }, [theme.fontHeading, theme.fontBody, theme.fontName, theme.sizeHeading, theme.sizeBody, theme.sizeName]);
 
   const pages = useMemo((): CvPage[] => {
-    const usableHeight = A4_HEIGHT_PT - theme.margin * 2;
-    const isSidebarHeader = theme.columns === 2 && template.headerVariant === "sidebar-photo";
-    const { main, sidebar } = buildFlowBlocks(data, theme.columns === 2 ? template.sidebarSections : []);
-
-    const mainHeaderHeight = isSidebarHeader ? 0 : (HEADER_HEIGHT_ESTIMATE[template.headerVariant] ?? 96);
-    const mainPages = paginateColumn(main, data, theme, mainWidthPt, template.experienceVariant, usableHeight - mainHeaderHeight, usableHeight);
-
-    const sidebarHeaderHeight = isSidebarHeader ? SIDEBAR_HEADER_HEIGHT_ESTIMATE : 0;
-    const sidebarPages = theme.columns === 2
-      ? paginateColumn(sidebar, data, theme, sidebarWidthPt, template.experienceVariant, usableHeight - sidebarHeaderHeight, usableHeight)
-      : [[]];
-
-    const count = Math.max(mainPages.length, theme.columns === 2 ? sidebarPages.length : 1, 1);
-    const out: CvPage[] = [];
-    for (let i = 0; i < count; i++) out.push({ main: mainPages[i] ?? [], sidebar: sidebarPages[i] ?? [] });
-    return out;
+    return computeCvPages(data, theme, template, mainWidthPt, sidebarWidthPt);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, theme, template, mainWidthPt, sidebarWidthPt, ready]);
 

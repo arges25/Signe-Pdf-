@@ -55,5 +55,142 @@
       "cv": { "title": "Create a CV", "description": "Build a professional CV from 15 templates, customize it and export it." },
       "cta": "Get started"
     }
+  },
+  "cv": {
+    "gallery": {
+      "title": "Choose a template",
+      "subtitle": "You can customize everything afterwards, without ever losing your information.",
+      "use": "Use this template",
+      "myCvs": "My CVs",
+      "filters": { "all": "All", "classic": "Classic", "modern": "Modern", "creative": "Creative", "professional": "Professional", "student": "Student", "withPhoto": "With photo", "withoutPhoto": "Without photo", "oneColumn": "1 column", "twoColumns": "2 columns", "onePage": "1 page" }
+    },
+    "templates": {
+      "names": {
+        "classic": "Classic Professional", "modernBlue": "Modern Blue", "minimalist": "Minimalist",
+        "elegantPremium": "Elegant Premium", "largePhoto": "Large Photo", "noPhoto": "No Photo",
+        "student": "Student / First Job", "sales": "Sales / Business", "technical": "Technical / Trades / Electrician",
+        "tech": "IT / Tech", "manager": "Executive / Manager", "creative": "Creative / Design",
+        "timeline": "Chronological / Timeline", "compact": "Compact 1 Page", "european": "European Plain"
+      }
+    },
+    "nav": { "content": "Content", "organize": "Organize", "design": "Design", "preview": "Preview", "edit": "Edit" },
+    "sections": {
+      "personal": "Personal information", "photo": "Photo", "profile": "Profile", "experience": "Work Experience",
+      "education": "Education", "skills": "Skills", "languages": "Languages", "certifications": "Certifications",
+      "permits": "Driving Licence", "projects": "Projects", "interests": "Interests", "references": "References",
+      "custom": "Custom sections", "newSection": "+ New section"
+    },
+    "personal": {
+      "firstName": "First name", "lastName": "Last name", "jobTitle": "Job title", "targetRole": "Target role",
+      "address": "Address", "postalCode": "Postal code", "city": "City", "country": "Country",
+      "phone": "Phone", "email": "Email", "birthDate": "Date of birth", "nationality": "Nationality",
+      "website": "Website", "linkedin": "LinkedIn", "github": "GitHub", "portfolio": "Portfolio",
+      "customLinks": "Other links", "addLink": "+ Add a link", "linkLabel": "Label", "linkUrl": "Link"
+    },
+    "photo": {
+      "add": "Add a photo", "take": "Take a photo", "import": "Import from Photos", "remove": "Remove photo",
+      "crop": "Crop", "zoom": "Zoom", "rotate": "Rotate", "move": "Move",
+      "shape": "Shape", "shapeRound": "Round", "shapeSquare": "Square", "shapeRounded": "Rounded corners", "shapePortrait": "Portrait",
+      "size": "Size", "border": "Border", "borderColor": "Border color", "apply": "Apply", "cancel": "Cancel"
+    },
+    "experience": {
+      "add": "+ Add an experience", "jobTitle": "Job title", "company": "Company", "city": "City", "country": "Country",
+      "startDate": "Start date", "endDate": "End date", "current": "Current position",
+      "description": "Description, duties, achievements", "descriptionHint": "One line per point: they'll display as a bullet list.",
+      "empty": "No experience yet."
+    },
+    "education": {
+      "add": "+ Add an education", "degree": "Degree", "institution": "Institution", "city": "City", "country": "Country",
+      "startDate": "Start date", "endDate": "End date", "description": "Description", "honors": "Honors",
+      "empty": "No education yet."
+    },
+    "skills": {
+      "add": "+ Add a skill", "name": "Skill", "level": "Level", "style": "Display style",
+      "styleList": "List", "styleBars": "Bars", "styleStars": "Stars", "styleDots": "Dots", "styleBadges": "Badges/tags",
+      "levels": { "beginner": "Beginner", "intermediate": "Intermediate", "advanced": "Advanced", "expert": "Expert" },
+      "empty": "No skills yet."
+    },
+    "languages": {
+      "add": "+ Add a language", "name": "Language", "level": "Level",
+      "levels": { "A1": "A1", "A2": "A2", "B1": "B1", "B2": "B2", "C1": "C1", "C2": "C2", "beginner": "Beginner", "intermediate": "Intermediate", "fluent": "Fluent", "native": "Native" },
+      "empty": "No languages yet."
+    },
+    "certifications": {
+      "add": "+ Add a certification", "name": "Name", "issuer": "Issuer", "date": "Date", "expiry": "Expiry", "url": "Link",
+      "empty": "No certifications yet."
+    },
+    "permits": { "add": "+ Add a licence", "category": "Category", "empty": "No licence yet." },
+    "projects": {
+      "add": "+ Add a project", "name": "Name", "description": "Description", "technologies": "Technologies",
+      "date": "Date", "url": "Link", "image": "Image", "empty": "No projects yet."
+    },
+    "interests": {
+      "add": "+ Add an interest", "label": "Interest", "style": "Display style",
+      "styleText": "Text", "styleList": "List", "styleTags": "Tags", "styleIcons": "Icons",
+      "empty": "No interests yet."
+    },
+    "references": {
+      "name": "Name", "jobTitle": "Job title", "company": "Company", "phone": "Phone", "email": "Email",
+      "add": "+ Add a reference", "availableOnRequest": "Show \"References available upon request\"",
+      "empty": "No references yet."
+    },
+    "custom": {
+      "title": "Section title", "titlePlaceholder": "E.g. Certifications, Software, Volunteering…",
+      "addItem": "+ Add an item", "itemTitle": "Title", "itemSubtitle": "Subtitle", "itemDate": "Date", "itemDescription": "Description",
+      "deleteSection": "Delete section"
+    },
+    "organize": {
+      "title": "CV organization", "subtitle": "Reorder, hide or rename sections — your data stays intact.",
+      "hide": "Hide", "show": "Show", "renamePlaceholder": "Section title"
+    },
+    "design": {
+      "colors": "Colors", "primary": "Primary color", "secondary": "Secondary", "accent": "Accent",
+      "text": "Text", "heading": "Headings", "background": "Background", "sidebar": "Sidebar",
+      "customColor": "Custom color",
+      "palettes": {
+        "blue": "Professional blue", "navy": "Navy blue", "mono": "Black & white", "gray": "Gray", "green": "Green",
+        "burgundy": "Burgundy", "beige": "Beige", "violet": "Violet", "orange": "Orange", "turquoise": "Turquoise",
+        "brown": "Brown", "gold": "Gold / Premium"
+      },
+      "fonts": "Fonts", "fontName": "Name font", "fontHeading": "Heading font", "fontBody": "Body font",
+      "typography": "Typography", "sizeName": "Name size", "sizeJobTitle": "Job title size", "sizeHeading": "Heading size",
+      "sizeBody": "Body text size", "lineHeight": "Line height", "paragraphSpacing": "Paragraph spacing",
+      "sectionSpacing": "Section spacing", "uppercaseHeadings": "Uppercase headings", "boldHeadings": "Bold headings",
+      "letterSpacing": "Letter spacing",
+      "layout": "Layout", "columns": "Columns", "oneColumn": "1 column", "twoColumns": "2 columns",
+      "columnSplit": "Arrangement", "narrowLeft": "Narrow left / wide right", "wideLeft": "Wide left / narrow right",
+      "sidebarWidth": "Sidebar width",
+      "spacing": "Margins and spacing", "spacingCompact": "Compact", "spacingNormal": "Normal", "spacingAiry": "Airy", "margin": "Margins",
+      "icons": "Icons", "iconsEnabled": "Icons enabled",
+      "dateFormat": "Date format", "dateFormatMonthYear": "Month year", "dateFormatNumeric": "MM/YYYY", "dateFormatYearOnly": "Year only",
+      "resetStyle": "Reset style", "resetStyleConfirm": "Reset colors, fonts, layout and spacing to the template's originals? Your information will not be affected."
+    },
+    "qr": {
+      "title": "QR code", "enable": "Add a QR code", "url": "Link (LinkedIn, GitHub, portfolio…)",
+      "size": "Size", "position": "Position", "bottomRight": "Bottom right", "bottomLeft": "Bottom left", "topRight": "Top right", "sidebar": "Sidebar"
+    },
+    "signature": {
+      "add": "Add my signature", "enable": "Show my signature", "size": "Size"
+    },
+    "myCvs": {
+      "title": "My CVs", "empty": "No CVs saved yet.", "modified": "Modified on",
+      "rename": "Rename", "duplicate": "Duplicate", "delete": "Delete", "open": "Open",
+      "deleteConfirm": "Delete this CV permanently?", "newName": "New name"
+    },
+    "changeTemplate": { "button": "Change template", "subtitle": "Your information is kept." },
+    "cvLanguage": { "label": "CV language" },
+    "export": {
+      "button": "Export", "title": "Export CV", "filename": "File name", "format": "Format",
+      "pdf": "PDF", "pdfDescription": "most faithful, crisp text", "word": "Word",
+      "wordDescription": "editable in Word / LibreOffice", "save": "Save",
+      "continueToSign": "Continue to signing", "print": "Print", "share": "Share"
+    },
+    "overflow": {
+      "message": "Your CV exceeds one page.", "reduceSpacing": "Reduce spacing",
+      "reduceSize": "Slightly reduce size", "useCompact": "Use the Compact template", "acceptMultiPage": "Switch to multiple pages"
+    },
+    "sort": { "auto": "Sort automatically", "recentFirst": "Most recent first" },
+    "privacy": "Everything stays on your device.",
+    "draftSaved": "Saved"
   }
 }

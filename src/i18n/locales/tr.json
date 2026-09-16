@@ -55,5 +55,142 @@
       "cv": { "title": "CV Oluştur", "description": "15 şablondan profesyonel bir CV oluşturun, kişiselleştirin ve dışa aktarın." },
       "cta": "Başla"
     }
+  },
+  "cv": {
+    "gallery": {
+      "title": "Bir şablon seçin",
+      "subtitle": "Bilgilerinizi hiç kaybetmeden her şeyi daha sonra özelleştirebilirsiniz.",
+      "use": "Bu şablonu kullan",
+      "myCvs": "CV'lerim",
+      "filters": { "all": "Tümü", "classic": "Klasik", "modern": "Modern", "creative": "Yaratıcı", "professional": "Profesyonel", "student": "Öğrenci", "withPhoto": "Fotoğraflı", "withoutPhoto": "Fotoğrafsız", "oneColumn": "1 sütun", "twoColumns": "2 sütun", "onePage": "1 sayfa" }
+    },
+    "templates": {
+      "names": {
+        "classic": "Klasik Profesyonel", "modernBlue": "Modern Mavi", "minimalist": "Minimalist",
+        "elegantPremium": "Zarif Premium", "largePhoto": "Büyük Fotoğraf", "noPhoto": "Fotoğrafsız",
+        "student": "Öğrenci / İlk İş", "sales": "Satış / Ticaret", "technical": "Teknik / İnşaat / Elektrikçi",
+        "tech": "Bilişim / Teknoloji", "manager": "Yönetici / Müdür", "creative": "Yaratıcı / Tasarım",
+        "timeline": "Kronolojik / Zaman Çizelgesi", "compact": "Kompakt 1 Sayfa", "european": "Sade Avrupa"
+      }
+    },
+    "nav": { "content": "İçerik", "organize": "Düzenleme", "design": "Tasarım", "preview": "Önizleme", "edit": "Düzenle" },
+    "sections": {
+      "personal": "Kişisel bilgiler", "photo": "Fotoğraf", "profile": "Profil", "experience": "İş Deneyimi",
+      "education": "Eğitim", "skills": "Beceriler", "languages": "Diller", "certifications": "Sertifikalar",
+      "permits": "Ehliyet", "projects": "Projeler", "interests": "İlgi Alanları", "references": "Referanslar",
+      "custom": "Özel bölümler", "newSection": "+ Yeni bölüm"
+    },
+    "personal": {
+      "firstName": "Ad", "lastName": "Soyad", "jobTitle": "Meslek unvanı", "targetRole": "Hedeflenen pozisyon",
+      "address": "Adres", "postalCode": "Posta kodu", "city": "Şehir", "country": "Ülke",
+      "phone": "Telefon", "email": "E-posta", "birthDate": "Doğum tarihi", "nationality": "Uyruk",
+      "website": "Web sitesi", "linkedin": "LinkedIn", "github": "GitHub", "portfolio": "Portfolyo",
+      "customLinks": "Diğer bağlantılar", "addLink": "+ Bağlantı ekle", "linkLabel": "Etiket", "linkUrl": "Bağlantı"
+    },
+    "photo": {
+      "add": "Fotoğraf ekle", "take": "Fotoğraf çek", "import": "Fotoğraflardan içe aktar", "remove": "Fotoğrafı kaldır",
+      "crop": "Kırp", "zoom": "Yakınlaştır", "rotate": "Döndür", "move": "Taşı",
+      "shape": "Şekil", "shapeRound": "Yuvarlak", "shapeSquare": "Kare", "shapeRounded": "Yuvarlatılmış köşeler", "shapePortrait": "Dikey",
+      "size": "Boyut", "border": "Kenarlık", "borderColor": "Kenarlık rengi", "apply": "Uygula", "cancel": "İptal"
+    },
+    "experience": {
+      "add": "+ Deneyim ekle", "jobTitle": "Pozisyon", "company": "Şirket", "city": "Şehir", "country": "Ülke",
+      "startDate": "Başlangıç tarihi", "endDate": "Bitiş tarihi", "current": "Mevcut pozisyon",
+      "description": "Açıklama, görevler, başarılar", "descriptionHint": "Her satıra bir madde: liste olarak görüntülenir.",
+      "empty": "Henüz deneyim yok."
+    },
+    "education": {
+      "add": "+ Eğitim ekle", "degree": "Derece", "institution": "Kurum", "city": "Şehir", "country": "Ülke",
+      "startDate": "Başlangıç tarihi", "endDate": "Bitiş tarihi", "description": "Açıklama", "honors": "Derece/Onur",
+      "empty": "Henüz eğitim bilgisi yok."
+    },
+    "skills": {
+      "add": "+ Beceri ekle", "name": "Beceri", "level": "Seviye", "style": "Görüntüleme stili",
+      "styleList": "Liste", "styleBars": "Çubuklar", "styleStars": "Yıldızlar", "styleDots": "Noktalar", "styleBadges": "Rozetler/etiketler",
+      "levels": { "beginner": "Başlangıç", "intermediate": "Orta", "advanced": "İleri", "expert": "Uzman" },
+      "empty": "Henüz beceri yok."
+    },
+    "languages": {
+      "add": "+ Dil ekle", "name": "Dil", "level": "Seviye",
+      "levels": { "A1": "A1", "A2": "A2", "B1": "B1", "B2": "B2", "C1": "C1", "C2": "C2", "beginner": "Başlangıç", "intermediate": "Orta", "fluent": "Akıcı", "native": "Ana dili" },
+      "empty": "Henüz dil bilgisi yok."
+    },
+    "certifications": {
+      "add": "+ Sertifika ekle", "name": "Ad", "issuer": "Veren kurum", "date": "Tarih", "expiry": "Geçerlilik süresi", "url": "Bağlantı",
+      "empty": "Henüz sertifika yok."
+    },
+    "permits": { "add": "+ Ehliyet ekle", "category": "Sınıf", "empty": "Henüz ehliyet bilgisi yok." },
+    "projects": {
+      "add": "+ Proje ekle", "name": "Ad", "description": "Açıklama", "technologies": "Teknolojiler",
+      "date": "Tarih", "url": "Bağlantı", "image": "Görsel", "empty": "Henüz proje yok."
+    },
+    "interests": {
+      "add": "+ İlgi alanı ekle", "label": "İlgi alanı", "style": "Görüntüleme stili",
+      "styleText": "Metin", "styleList": "Liste", "styleTags": "Etiketler", "styleIcons": "Simgeler",
+      "empty": "Henüz ilgi alanı yok."
+    },
+    "references": {
+      "name": "Ad", "jobTitle": "Pozisyon", "company": "Şirket", "phone": "Telefon", "email": "E-posta",
+      "add": "+ Referans ekle", "availableOnRequest": "\"Referanslar istek üzerine sağlanabilir\" yazısını göster",
+      "empty": "Henüz referans yok."
+    },
+    "custom": {
+      "title": "Bölüm başlığı", "titlePlaceholder": "Örn. Yetkinlik Belgeleri, Yazılımlar, Gönüllülük…",
+      "addItem": "+ Öğe ekle", "itemTitle": "Başlık", "itemSubtitle": "Alt başlık", "itemDate": "Tarih", "itemDescription": "Açıklama",
+      "deleteSection": "Bölümü sil"
+    },
+    "organize": {
+      "title": "CV düzeni", "subtitle": "Bölümleri yeniden sıralayın, gizleyin veya yeniden adlandırın — verileriniz olduğu gibi kalır.",
+      "hide": "Gizle", "show": "Göster", "renamePlaceholder": "Bölüm başlığı"
+    },
+    "design": {
+      "colors": "Renkler", "primary": "Ana renk", "secondary": "İkincil renk", "accent": "Vurgu",
+      "text": "Metin", "heading": "Başlıklar", "background": "Arka plan", "sidebar": "Yan sütun",
+      "customColor": "Özel renk",
+      "palettes": {
+        "blue": "Profesyonel mavi", "navy": "Lacivert", "mono": "Siyah & beyaz", "gray": "Gri", "green": "Yeşil",
+        "burgundy": "Bordo", "beige": "Bej", "violet": "Mor", "orange": "Turuncu", "turquoise": "Turkuaz",
+        "brown": "Kahverengi", "gold": "Altın / Premium"
+      },
+      "fonts": "Yazı tipleri", "fontName": "Ad yazı tipi", "fontHeading": "Başlık yazı tipi", "fontBody": "İçerik yazı tipi",
+      "typography": "Tipografi", "sizeName": "Ad boyutu", "sizeJobTitle": "Meslek boyutu", "sizeHeading": "Başlık boyutu",
+      "sizeBody": "Metin boyutu", "lineHeight": "Satır aralığı", "paragraphSpacing": "Paragraflar arası boşluk",
+      "sectionSpacing": "Bölümler arası boşluk", "uppercaseHeadings": "Büyük harfli başlıklar", "boldHeadings": "Kalın başlıklar",
+      "letterSpacing": "Harf aralığı",
+      "layout": "Yerleşim", "columns": "Sütunlar", "oneColumn": "1 sütun", "twoColumns": "2 sütun",
+      "columnSplit": "Düzen", "narrowLeft": "Sol dar / sağ geniş", "wideLeft": "Sol geniş / sağ dar",
+      "sidebarWidth": "Yan sütun genişliği",
+      "spacing": "Kenar boşlukları ve aralıklar", "spacingCompact": "Kompakt", "spacingNormal": "Normal", "spacingAiry": "Ferah", "margin": "Kenar boşlukları",
+      "icons": "Simgeler", "iconsEnabled": "Simgeler etkin",
+      "dateFormat": "Tarih biçimi", "dateFormatMonthYear": "Ay yıl", "dateFormatNumeric": "AA/YYYY", "dateFormatYearOnly": "Sadece yıl",
+      "resetStyle": "Stili sıfırla", "resetStyleConfirm": "Renkler, yazı tipleri, yerleşim ve boşluklar şablonun özgün haline sıfırlansın mı? Bilgileriniz etkilenmeyecektir."
+    },
+    "qr": {
+      "title": "QR kod", "enable": "QR kod ekle", "url": "Bağlantı (LinkedIn, GitHub, portfolyo…)",
+      "size": "Boyut", "position": "Konum", "bottomRight": "Sağ alt", "bottomLeft": "Sol alt", "topRight": "Sağ üst", "sidebar": "Yan sütun"
+    },
+    "signature": {
+      "add": "İmzamı ekle", "enable": "İmzamı göster", "size": "Boyut"
+    },
+    "myCvs": {
+      "title": "CV'lerim", "empty": "Henüz kaydedilmiş CV yok.", "modified": "Değiştirilme tarihi",
+      "rename": "Yeniden adlandır", "duplicate": "Çoğalt", "delete": "Sil", "open": "Aç",
+      "deleteConfirm": "Bu CV kalıcı olarak silinsin mi?", "newName": "Yeni ad"
+    },
+    "changeTemplate": { "button": "Şablonu değiştir", "subtitle": "Bilgileriniz korunur." },
+    "cvLanguage": { "label": "CV dili" },
+    "export": {
+      "button": "Dışa Aktar", "title": "CV'yi Dışa Aktar", "filename": "Dosya adı", "format": "Biçim",
+      "pdf": "PDF", "pdfDescription": "en sadık, net metin", "word": "Word",
+      "wordDescription": "Word / LibreOffice'te düzenlenebilir", "save": "Kaydet",
+      "continueToSign": "İmzaya devam et", "print": "Yazdır", "share": "Paylaş"
+    },
+    "overflow": {
+      "message": "CV'niz bir sayfayı aşıyor.", "reduceSpacing": "Boşlukları azalt",
+      "reduceSize": "Boyutu biraz küçült", "useCompact": "Kompakt şablonu kullan", "acceptMultiPage": "Çoklu sayfaya geç"
+    },
+    "sort": { "auto": "Otomatik sırala", "recentFirst": "En yeniden en eskiye" },
+    "privacy": "Her şey cihazınızda kalır.",
+    "draftSaved": "Kaydedildi"
   }
 }

@@ -7,13 +7,14 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export type ExportFormat = { id: string; label: string; extension: string; description?: string };
 
-export default function ExportDialog({ open, onOpenChange, defaultName, saveHint, formats, onConfirm }: {
+export default function ExportDialog({ open, onOpenChange, defaultName, saveHint, formats, onConfirm, title = "Enregistrer le document signé" }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   defaultName: string;
   saveHint: string;
   formats: ExportFormat[];
   onConfirm: (name: string, formatId: string) => Promise<void>;
+  title?: string;
 }) {
   const [name, setName] = useState(defaultName);
   const [formatId, setFormatId] = useState(formats[0]?.id ?? "");
@@ -32,7 +33,7 @@ export default function ExportDialog({ open, onOpenChange, defaultName, saveHint
 
   return <Dialog open={open} onOpenChange={o => { if (!saving) onOpenChange(o); }}>
     <DialogContent className="export-dialog" showCloseButton={!saving}>
-      <DialogTitle className="dialog-title">Enregistrer le document signé</DialogTitle>
+      <DialogTitle className="dialog-title">{title}</DialogTitle>
       <DialogDescription>Vérifiez le nom du fichier avant l’enregistrement.</DialogDescription>
       <label htmlFor="export-filename" className="field-label">Nom du fichier</label>
       <div className="filename-field">

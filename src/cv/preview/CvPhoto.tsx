@@ -6,8 +6,9 @@ const SHAPE_ASPECT: Record<CvPhoto["shape"], string> = { round: "1 / 1", square:
 export default function CvPhotoView({ photo, basePt }: { photo: CvPhoto; basePt: number }) {
   const size = basePt * (photo.sizePercent / 100);
   const width = photo.shape === "portrait" ? size * 0.8 : size;
+  const height = photo.shape === "portrait" ? width / (3 / 4) : width;
   return <div style={{
-    width, height: photo.shape === "portrait" ? width / (3 / 4) : width,
+    width: `${width}pt`, height: `${height}pt`,
     borderRadius: SHAPE_RADIUS[photo.shape],
     aspectRatio: SHAPE_ASPECT[photo.shape],
     overflow: "hidden", flexShrink: 0,

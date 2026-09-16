@@ -15,7 +15,7 @@ export default function CvHeader({ data, theme, variant, showPhoto, inSidebar }:
     return <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "10pt", marginBottom: "16pt" }}>
       {photo && <CvPhotoView photo={photo} basePt={86} />}
       <div>
-        <h1 style={{ ...nameStyle(theme), color: theme.colors.sidebarText, fontSize: theme.sizeName * 0.82 }}>{fullName(data)}</h1>
+        <h1 style={{ ...nameStyle(theme), color: theme.colors.sidebarText, fontSize: `${theme.sizeName * 0.82}pt` }}>{fullName(data)}</h1>
         {titleLine(data) && <p style={{ ...jobTitleStyle(theme), color: theme.colors.sidebarText, opacity: 0.85 }}>{titleLine(data)}</p>}
       </div>
       <ContactRow data={data} theme={theme} inSidebar vertical />

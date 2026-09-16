@@ -20,11 +20,12 @@ function usePaginatedCv(data: CvData, theme: CvTheme, template: CvTemplateConfig
 function QrOverlay({ data, theme }: { data: CvData; theme: CvTheme }) {
   if (!data.qrCode.enabled || !data.qrCode.url.trim()) return null;
   const sizePt = A4_WIDTH_PT * (data.qrCode.sizePercent / 100);
+  const marginPt = `${theme.margin}pt`;
   const posStyle: React.CSSProperties = { position: "absolute" };
-  if (data.qrCode.position === "bottom-right") { posStyle.right = theme.margin; posStyle.bottom = theme.margin; }
-  else if (data.qrCode.position === "bottom-left") { posStyle.left = theme.margin; posStyle.bottom = theme.margin; }
-  else if (data.qrCode.position === "top-right") { posStyle.right = theme.margin; posStyle.top = theme.margin; }
-  else { posStyle.left = theme.margin; posStyle.top = theme.margin; }
+  if (data.qrCode.position === "bottom-right") { posStyle.right = marginPt; posStyle.bottom = marginPt; }
+  else if (data.qrCode.position === "bottom-left") { posStyle.left = marginPt; posStyle.bottom = marginPt; }
+  else if (data.qrCode.position === "top-right") { posStyle.right = marginPt; posStyle.top = marginPt; }
+  else { posStyle.left = marginPt; posStyle.top = marginPt; }
   return <div style={posStyle}><CvQr url={data.qrCode.url} sizePt={sizePt} /></div>;
 }
 
@@ -32,8 +33,8 @@ function SignatureOverlay({ data, theme, signature }: { data: CvData; theme: CvT
   if (!data.signature.enabled || !signature) return null;
   const width = 90 * (data.signature.sizePercent / 100);
   const height = width * (signature.height / signature.width);
-  return <div style={{ position: "absolute", right: theme.margin, bottom: theme.margin }}>
-    <img src={signature.dataUrl} alt="" style={{ width, height, display: "block" }} />
+  return <div style={{ position: "absolute", right: `${theme.margin}pt`, bottom: `${theme.margin}pt` }}>
+    <img src={signature.dataUrl} alt="" style={{ width: `${width}pt`, height: `${height}pt`, display: "block" }} />
   </div>;
 }
 
@@ -47,13 +48,13 @@ export default function CvRenderer({ data, theme, template, signature }: { data:
   const showPhoto = Boolean(data.personal.photo);
   const isSidebarHeader = template.headerVariant === "sidebar-photo" && theme.columns === 2;
 
-  if (!ready) return <div className="cv-page" style={{ width: A4_WIDTH_PT, height: A4_HEIGHT_PT, background: theme.colors.background }} />;
+  if (!ready) return <div className="cv-page" style={{ width: `${A4_WIDTH_PT}pt`, height: `${A4_HEIGHT_PT}pt`, background: theme.colors.background }} />;
 
   return <>
     {pages.map((page, pageIndex) => {
       const isLast = pageIndex === pages.length - 1;
       const isFirst = pageIndex === 0;
-      return <div key={pageIndex} className="cv-page" style={{ width: A4_WIDTH_PT, height: A4_HEIGHT_PT, background: theme.colors.background, position: "relative", overflow: "hidden", display: "flex" }}>
+      return <div key={pageIndex} className="cv-page" style={{ width: `${A4_WIDTH_PT}pt`, height: `${A4_HEIGHT_PT}pt`, background: theme.colors.background, position: "relative", overflow: "hidden", display: "flex" }}>
         {theme.columns === 2 && <div style={{ width: `${theme.sidebarWidthPercent}%`, background: theme.colors.sidebarBackground, padding: `${theme.margin}pt 14pt`, boxSizing: "border-box", display: "flex", flexDirection: "column", overflow: "hidden" }}>
           {isFirst && isSidebarHeader && <CvHeader data={data} theme={theme} variant={template.headerVariant} showPhoto={showPhoto} inSidebar />}
           {page.sidebar.map(block => <BlockWrapper key={block.id} block={block} theme={theme}>{renderFlowBlock(block, data, theme, template.sectionHeaderVariant, template.experienceVariant, true)}</BlockWrapper>)}
@@ -64,7 +65,7 @@ export default function CvRenderer({ data, theme, template, signature }: { data:
         </div>
         {isLast && <QrOverlay data={data} theme={theme} />}
         {isLast && <SignatureOverlay data={data} theme={theme} signature={signature} />}
-        <div style={{ position: "absolute", bottom: "8pt", left: 0, right: 0, textAlign: "center", ...bodyStyle(theme), fontSize: 7, color: theme.colors.secondary, opacity: pages.length > 1 ? 0.6 : 0 }}>{pageIndex + 1} / {pages.length}</div>
+        <div style={{ position: "absolute", bottom: "8pt", left: 0, right: 0, textAlign: "center", ...bodyStyle(theme), fontSize: "7pt", color: theme.colors.secondary, opacity: pages.length > 1 ? 0.6 : 0 }}>{pageIndex + 1} / {pages.length}</div>
       </div>;
     })}
   </>;

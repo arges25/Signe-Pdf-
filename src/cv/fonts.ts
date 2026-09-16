@@ -1,12 +1,18 @@
 import type { FontId } from "./types/theme";
 
-// Self-hosted (public/fonts/cv/<slug>/{400,700}.woff), lazy-loaded only
-// when a CV actually selects a given family — never all at once. Each file
-// is the Google Fonts "latin-ext" cut, which is a complete, self-contained
-// subset (not a unicode-range narrowing of "latin"): French/German
-// accents and the Turkish ç/ğ/ı/İ/ö/ş/ü all render correctly from it, in
-// both the on-screen preview and the embedded PDF.
+// Self-hosted (public/fonts/cv/<slug>/{latin,latin-ext}-{400,700}.woff),
+// lazy-loaded only when a CV actually selects a given family.
+//
+// Google's own subset files are *disjoint*, not nested: "latin" covers
+// Basic Latin + Latin-1 Supplement (plain ASCII plus French/German
+// accents), "latin-ext" covers Latin Extended-A/B (the Turkish ş/ğ/ı/İ
+// range) and neither is a superset of the other — a font embedded from
+// latin-ext alone is missing plain A–Z entirely. Both are loaded and used
+// together everywhere a font is needed (on-screen and in the exported
+// PDF) so French/German/Turkish text — and plain text — all render
+// correctly from the same font choice.
 export type FontCategory = "sans" | "serif" | "display" | "mono";
+export type FontSubset = "latin" | "latin-ext";
 
 export type FontDef = { id: FontId; label: string; cssFamily: string; category: FontCategory; slug: string };
 
@@ -33,38 +39,57 @@ export const FONT_LIBRARY: FontDef[] = [
 const FONT_BY_ID = new Map(FONT_LIBRARY.map(f => [f.id, f]));
 export function fontDef(id: FontId): FontDef { return FONT_BY_ID.get(id) ?? FONT_LIBRARY[0]; }
 
-function fontUrl(slug: string, weight: 400 | 700): string {
-  return `${import.meta.env.BASE_URL}fonts/cv/${slug}/${weight}.woff`;
+// Google's standard boundaries for these two subset names (used
+// identically across their whole catalog) — the font files themselves
+// were subsetted to exactly these ranges, so this is what tells the
+// browser (via `unicode-range`) and the PDF exporter (via pickSubset
+// below) which file actually has a given character's glyph.
+const LATIN_RANGE = "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD";
+const LATIN_EXT_RANGE = "U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF";
+
+function fontUrl(slug: string, subset: FontSubset, weight: 400 | 700): string {
+  return `${import.meta.env.BASE_URL}fonts/cv/${slug}/${subset}-${weight}.woff`;
 }
 
 const injectedStyles = new Set<FontId>();
 
-// Injects a <style> @font-face rule for this family (both weights) the
-// first time it's needed, then no-ops on every later call — the mechanism
-// that keeps the editor from ever downloading fonts the user hasn't
-// selected.
+// Injects @font-face rules for both subsets (both weights) the first time
+// this family is needed, then no-ops on every later call. Two rules per
+// weight, same font-family name, different unicode-range — the browser
+// picks whichever file actually has the glyph for each character,
+// automatically and per-character, exactly as intended.
 export function ensureFontLoaded(id: FontId): void {
   if (injectedStyles.has(id)) return;
   injectedStyles.add(id);
   const def = fontDef(id);
   const style = document.createElement("style");
-  style.textContent = `
-@font-face { font-family: '${def.cssFamily}'; font-weight: 400; font-style: normal; font-display: swap; src: url('${fontUrl(def.slug, 400)}') format('woff'); }
-@font-face { font-family: '${def.cssFamily}'; font-weight: 700; font-style: normal; font-display: swap; src: url('${fontUrl(def.slug, 700)}') format('woff'); }
-`;
+  const rule = (weight: 400 | 700, subset: FontSubset, range: string) =>
+    `@font-face { font-family: '${def.cssFamily}'; font-weight: ${weight}; font-style: normal; font-display: swap; unicode-range: ${range}; src: url('${fontUrl(def.slug, subset, weight)}') format('woff'); }`;
+  style.textContent = [
+    rule(400, "latin", LATIN_RANGE), rule(700, "latin", LATIN_RANGE),
+    rule(400, "latin-ext", LATIN_EXT_RANGE), rule(700, "latin-ext", LATIN_EXT_RANGE),
+  ].join("\n");
   document.head.appendChild(style);
+}
+
+// codepoint <= 0xFF (Basic Latin + Latin-1 Supplement) is the "latin"
+// subset; everything else this app needs (Turkish ş/ğ/ı/İ, and any other
+// Latin Extended-A/B character) falls in "latin-ext" — matches the two
+// ranges above exactly for every character these four languages use.
+export function subsetForChar(ch: string): FontSubset {
+  return ch.codePointAt(0)! <= 0xFF ? "latin" : "latin-ext";
 }
 
 const fontBytesCache = new Map<string, Uint8Array>();
 
-// Fetches the raw font bytes for PDF embedding (pdf-lib + fontkit). Cached
-// per weight so exporting twice in a row doesn't re-fetch.
-export async function fetchFontBytes(id: FontId, weight: 400 | 700): Promise<Uint8Array> {
+// Fetches the raw font bytes for PDF embedding (pdf-lib + fontkit),
+// cached per (family, subset, weight).
+export async function fetchFontBytes(id: FontId, subset: FontSubset, weight: 400 | 700): Promise<Uint8Array> {
   const def = fontDef(id);
-  const cacheKey = `${def.slug}-${weight}`;
+  const cacheKey = `${def.slug}-${subset}-${weight}`;
   const cached = fontBytesCache.get(cacheKey);
   if (cached) return cached;
-  const res = await fetch(fontUrl(def.slug, weight));
+  const res = await fetch(fontUrl(def.slug, subset, weight));
   const bytes = new Uint8Array(await res.arrayBuffer());
   fontBytesCache.set(cacheKey, bytes);
   return bytes;

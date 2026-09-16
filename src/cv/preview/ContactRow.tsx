@@ -20,7 +20,7 @@ export default function ContactRow({ data, theme, inSidebar, vertical }: { data:
   return <div style={{ display: "flex", flexDirection: vertical ? "column" : "row", flexWrap: "wrap", gap: vertical ? "4pt" : "3pt 14pt" }}>
     {items.map((item, i) => {
       const Icon = CONTACT_ICONS[item.icon];
-      return <span key={i} style={{ ...bodyStyle(theme), color, display: "inline-flex", alignItems: "center", gap: "5pt", fontSize: theme.sizeBody * 0.94 }}>
+      return <span key={i} style={{ ...bodyStyle(theme), color, display: "inline-flex", alignItems: "center", gap: "5pt", fontSize: `${theme.sizeBody * 0.94}pt` }}>
         {theme.icons && <Icon size={theme.sizeBody * 0.95} />}{item.text}
       </span>;
     })}

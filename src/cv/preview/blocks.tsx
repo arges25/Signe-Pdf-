@@ -54,7 +54,7 @@ export function TimelineWrap({ theme, children }: { theme: CvTheme; children: Re
 }
 
 function SkillLevelBadge({ level, theme }: { level: string; theme: CvTheme }) {
-  return <span style={{ ...metaStyle(theme), padding: "1pt 6pt", border: `1pt solid ${theme.colors.primary}66`, borderRadius: "999pt", fontSize: theme.sizeBody * 0.82 }}>{level}</span>;
+  return <span style={{ ...metaStyle(theme), padding: "1pt 6pt", border: `1pt solid ${theme.colors.primary}66`, borderRadius: "999pt", fontSize: `${theme.sizeBody * 0.82}pt` }}>{level}</span>;
 }
 
 export function SkillsBody({ data, theme, inSidebar }: { data: CvData; theme: CvTheme; inSidebar?: boolean }) {
@@ -62,7 +62,7 @@ export function SkillsBody({ data, theme, inSidebar }: { data: CvData; theme: Cv
   const levelOrder: Record<string, number> = { beginner: 1, intermediate: 2, advanced: 3, expert: 4 };
   const textColor = inSidebar ? theme.colors.sidebarText : theme.colors.text;
   if (data.skillsStyle === "badges") return <div style={{ display: "flex", flexWrap: "wrap", gap: "5pt" }}>
-    {data.skills.map(s => <span key={s.id} style={{ ...bodyStyle(theme), color: textColor, padding: "2.5pt 8pt", background: inSidebar ? "rgba(255,255,255,0.12)" : `${theme.colors.primary}14`, borderRadius: "999pt", fontSize: theme.sizeBody * 0.9 }}>{s.name}</span>)}
+    {data.skills.map(s => <span key={s.id} style={{ ...bodyStyle(theme), color: textColor, padding: "2.5pt 8pt", background: inSidebar ? "rgba(255,255,255,0.12)" : `${theme.colors.primary}14`, borderRadius: "999pt", fontSize: `${theme.sizeBody * 0.9}pt` }}>{s.name}</span>)}
   </div>;
   return <div style={{ display: "flex", flexDirection: "column", gap: "5pt" }}>
     {data.skills.map(s => {
@@ -100,14 +100,14 @@ export function InterestsBody({ data, theme, inSidebar }: { data: CvData; theme:
   if (data.interestsStyle === "text") return <p style={{ ...bodyStyle(theme), color: textColor, margin: 0 }}>{data.interests.map(i => i.label).join(", ")}</p>;
   if (data.interestsStyle === "list") return <ul style={{ margin: 0, paddingLeft: "12pt" }}>{data.interests.map(i => <li key={i.id} style={{ ...bodyStyle(theme), color: textColor }}>{i.label}</li>)}</ul>;
   return <div style={{ display: "flex", flexWrap: "wrap", gap: "5pt" }}>
-    {data.interests.map(i => <span key={i.id} style={{ ...bodyStyle(theme), color: textColor, padding: "2.5pt 8pt", background: inSidebar ? "rgba(255,255,255,0.12)" : `${theme.colors.primary}14`, borderRadius: "999pt", fontSize: theme.sizeBody * 0.9 }}>{i.label}</span>)}
+    {data.interests.map(i => <span key={i.id} style={{ ...bodyStyle(theme), color: textColor, padding: "2.5pt 8pt", background: inSidebar ? "rgba(255,255,255,0.12)" : `${theme.colors.primary}14`, borderRadius: "999pt", fontSize: `${theme.sizeBody * 0.9}pt` }}>{i.label}</span>)}
   </div>;
 }
 
 export function PermitsBody({ data, theme, inSidebar }: { data: CvData; theme: CvTheme; inSidebar?: boolean }) {
   const textColor = inSidebar ? theme.colors.sidebarText : theme.colors.text;
   return <div style={{ display: "flex", flexWrap: "wrap", gap: "5pt" }}>
-    {data.permits.map(p => <span key={p.id} style={{ ...bodyStyle(theme), color: textColor, padding: "2.5pt 8pt", border: `1pt solid ${inSidebar ? "rgba(255,255,255,0.3)" : theme.colors.primary + "55"}`, borderRadius: "4pt", fontSize: theme.sizeBody * 0.92 }}>{p.category}</span>)}
+    {data.permits.map(p => <span key={p.id} style={{ ...bodyStyle(theme), color: textColor, padding: "2.5pt 8pt", border: `1pt solid ${inSidebar ? "rgba(255,255,255,0.3)" : theme.colors.primary + "55"}`, borderRadius: "4pt", fontSize: `${theme.sizeBody * 0.92}pt` }}>{p.category}</span>)}
   </div>;
 }
 
