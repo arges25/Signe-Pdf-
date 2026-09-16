@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
-import { ArrowLeft, ArrowUp, ArrowDown, Camera, Check, FileDown, FileEdit, Images, LoaderCircle, PenLine, Plus, RefreshCw, RotateCw, ScanLine, ShieldCheck, Sparkles, Trash2, X } from "lucide-react";
+import { ArrowLeft, ArrowUp, ArrowDown, Camera, Check, FileDown, FileEdit, Images, LoaderCircle, PenLine, Plus, RefreshCw, RotateCw, ScanLine, Sparkles, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Toaster } from "@/components/ui/sonner";
@@ -13,6 +13,7 @@ import { FILTER_LABELS, type ScanFilter } from "@/lib/scan-filters";
 import { QUALITY_DESCRIPTIONS, QUALITY_LABELS, QUALITY_PRESETS, type ScanPage, type ScanQuality } from "@/lib/scan-types";
 import { buildPdfFromScans } from "@/lib/scan-to-pdf";
 import { requestSaveHandle, saveBlob, saveHint } from "@/lib/save-file";
+import { BrandWordmark, PrivacyBadge } from "./brand-wordmark";
 
 const FILTER_ORDER: ScanFilter[] = ["original", "auto", "color", "bw", "grayscale", "contrast"];
 
@@ -274,9 +275,8 @@ export default function ScanTool({ onBack, onEditThis, onSignThis }: {
   return <div className="app-shell">
     <header className="site-header">
       {onBack && <Button variant="ghost" className="back-button" onClick={() => view === "editor" ? closeEditor(false) : onBack()}><ArrowLeft size={16} /> {view === "editor" ? "Annuler" : "Accueil"}</Button>}
-      <div className="brand" aria-label="Signé"><span className="brand-icon"><PenLine size={23} strokeWidth={1.9} /></span><span>Signé<span className="brand-period">.</span></span></div>
-      <span className="header-divider" /> <span className="header-description">La signature, simplement.</span>
-      <div className="local-badge"><ShieldCheck size={17} /><span>Tout reste sur votre appareil</span></div>
+      <BrandWordmark />
+      <PrivacyBadge />
     </header>
 
     <main className="main-content">

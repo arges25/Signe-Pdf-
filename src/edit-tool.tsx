@@ -15,6 +15,7 @@ import { clamp } from "@/lib/pdf-signing";
 import { detectFileKind } from "@/lib/file-detect";
 import { loadPdfDocument } from "@/lib/pdf-loader";
 import { applyEditsToPdf } from "@/lib/pdf-editing";
+import { BrandWordmark, PrivacyBadge } from "./brand-wordmark";
 import { requestSaveHandle, saveBlob, saveHint } from "@/lib/save-file";
 import { DEFAULT_HIGHLIGHT_COLOR, DEFAULT_REDACT_COLOR, DEFAULT_TEXT_COLOR, DEFAULT_TEXT_SIZE, type EditElement, type RectElement, type TextElement } from "@/lib/edit-types";
 
@@ -398,9 +399,8 @@ export default function EditTool({ onBack, onSignThis, handoff }: { onBack?: () 
   return <div className="app-shell">
     <header className="site-header">
       {onBack && <Button variant="ghost" className="back-button" onClick={onBack}><ArrowLeft size={16} /> Accueil</Button>}
-      <div className="brand" aria-label="Signé"><span className="brand-icon"><PenLine size={23} strokeWidth={1.9} /></span><span>Signé<span className="brand-period">.</span></span></div>
-      <span className="header-divider" /> <span className="header-description">La signature, simplement.</span>
-      <div className="local-badge"><ShieldCheck size={17} /><span>Tout reste sur votre appareil</span></div>
+      <BrandWordmark />
+      <PrivacyBadge />
     </header>
     <main className="main-content">
       <div className="workspace-heading"><div><p className="eyebrow">VOTRE ESPACE DE CORRECTION</p><h1>Modifier un document</h1></div>

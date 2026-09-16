@@ -449,5 +449,8 @@
   "settings": {
     "language": "Dil",
     "privacy": "Gizlilik"
+  },
+  "header": {
+    "privacyBadge": "Her şey cihazınızda kalır"
   }
 }

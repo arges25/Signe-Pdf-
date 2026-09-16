@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
-import { AlignCenter, AlignJustify, AlignLeft, AlignRight, ArrowLeft, Bold, CalendarDays, Check, Copy, FileDown, FilePlus, FileText, FolderOpen, Italic, List, ListOrdered, Mail, MapPin, PenLine, Pencil, Phone, Printer, Redo2, ShieldCheck, Trash2, Underline, Undo2, User, X } from "lucide-react";
+import { AlignCenter, AlignJustify, AlignLeft, AlignRight, ArrowLeft, Bold, CalendarDays, Check, Copy, FileDown, FilePlus, FileText, FolderOpen, Italic, List, ListOrdered, Mail, MapPin, PenLine, Pencil, Phone, Printer, Redo2, Trash2, Underline, Undo2, User, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -19,6 +19,7 @@ import { isPageEmpty, reflowPages, restoreSelection, saveSelection } from "@/lib
 import { renderDocumentPdf } from "@/lib/doc-to-pdf";
 import { renderDocumentDocx } from "@/lib/doc-to-docx";
 import { renderDocumentHtml, renderDocumentTxt } from "@/lib/doc-to-text";
+import { BrandWordmark, PrivacyBadge } from "./brand-wordmark";
 
 const TEMPLATE_ORDER: DocTemplateId[] = ["blank", "letter", "attestation", "hebergement"];
 const FONT_SIZES = [9, 10, 11, 12, 14, 16, 18, 20, 24, 28, 36];
@@ -417,9 +418,8 @@ export default function DocumentTool({ onBack, onSignThis, initialDraftId }: { o
   return <div className="app-shell doc-tool-shell">
     <header className="site-header no-print">
       {onBack && <Button variant="ghost" className="back-button" onClick={() => { if (screen === "editor") { void persistDraft(); setScreen("templates"); } else onBack(); }}><ArrowLeft size={16} /> {screen === "editor" ? "Modèles" : "Accueil"}</Button>}
-      <div className="brand" aria-label="Signé"><span className="brand-icon"><PenLine size={23} strokeWidth={1.9} /></span><span>Signé<span className="brand-period">.</span></span></div>
-      <span className="header-divider" /> <span className="header-description">La signature, simplement.</span>
-      <div className="local-badge"><ShieldCheck size={17} /><span>Tout reste sur votre appareil</span></div>
+      <BrandWordmark />
+      <PrivacyBadge />
     </header>
 
     <main className="main-content doc-tool-main">

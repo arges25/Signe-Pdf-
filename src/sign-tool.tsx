@@ -16,6 +16,7 @@ import { clearSavedSignature, loadSavedSignature, saveSignature } from "@/lib/si
 import { detectFileKind } from "@/lib/file-detect";
 import { decodeImage, signImageToBlob, signImageToPdf, type ImageDocument } from "@/lib/image-signing";
 import { loadPdfDocument } from "@/lib/pdf-loader";
+import { BrandWordmark, PrivacyBadge } from "./brand-wordmark";
 
 const supportsFileSystemAccess = typeof window !== "undefined" && typeof window.showSaveFilePicker === "function";
 function supportsShareFiles(): boolean {
@@ -368,9 +369,8 @@ export default function SignTool({ onBack, handoff }: { onBack?: () => void; han
   return <div className="app-shell">
     <header className="site-header">
       {onBack && <Button variant="ghost" className="back-button" onClick={onBack}><ArrowLeft size={16} /> Accueil</Button>}
-      <div className="brand" aria-label="Signé"><span className="brand-icon"><PenLine size={23} strokeWidth={1.9} /></span><span>Signé<span className="brand-period">.</span></span></div>
-      <span className="header-divider" /> <span className="header-description">La signature, simplement.</span>
-      <div className="local-badge"><ShieldCheck size={17} /><span>Tout reste sur votre appareil</span></div>
+      <BrandWordmark />
+      <PrivacyBadge />
     </header>
     <main className="main-content">
       <div className="workspace-heading"><div><p className="eyebrow">VOTRE ESPACE DE SIGNATURE</p><h1>Signer un document</h1></div>

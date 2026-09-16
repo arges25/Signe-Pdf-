@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { ArrowLeft, FolderOpen, LoaderCircle, PenLine, Printer, Share2, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { BrandWordmark } from "@/brand-wordmark";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -248,6 +249,7 @@ export default function CvTool({ onBack, onSignThis, initialDraftId }: { onBack:
     return <div className="app-shell">
       <header className="site-header">
         <Button variant="ghost" size="sm" onClick={goBackHome}><ArrowLeft size={16} /> {t("common.back")}</Button>
+        <BrandWordmark />
         <div className="local-badge"><ShieldCheck size={17} /><span>{t("common.privacyNote")}</span></div>
       </header>
       <main className="main-content">
@@ -262,6 +264,7 @@ export default function CvTool({ onBack, onSignThis, initialDraftId }: { onBack:
   return <div className="app-shell cv-editor-shell">
     <header className="site-header no-print">
       <Button variant="ghost" size="sm" onClick={goToGallery}><ArrowLeft size={16} /> {t("cv.nav.content")}</Button>
+      <BrandWordmark className="cv-editor-wordmark" />
       <span className="cv-autosave-note">{savedTick > 0 && t("common.saved")}</span>
       <div className="cv-header-actions">
         <div className="cv-mobile-view-toggle">

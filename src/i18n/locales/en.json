@@ -449,5 +449,8 @@
   "settings": {
     "language": "Language",
     "privacy": "Privacy"
+  },
+  "header": {
+    "privacyBadge": "Everything stays on your device"
   }
 }
