@@ -49,7 +49,7 @@ function slugifyName(data: CvData, cvLang: string, t: (k: string) => string): st
   return `${name}-CV-${date}`;
 }
 
-export default function CvTool({ onBack, onSignThis }: { onBack: () => void; onSignThis: (file: File) => void }) {
+export default function CvTool({ onBack, onSignThis, initialDraftId }: { onBack: () => void; onSignThis: (file: File) => void; initialDraftId?: string }) {
   const { t, i18n } = useTranslation();
   const [screen, setScreen] = useState<"gallery" | "editor">("gallery");
   // True once the user has actually picked a template or opened a saved
@@ -87,6 +87,20 @@ export default function CvTool({ onBack, onSignThis }: { onBack: () => void; onS
 
   useEffect(() => { void loadSavedSignature().then(setSignatureAsset); }, []);
   useEffect(() => { void listCvDrafts().then(setDrafts); }, []);
+  useEffect(() => {
+    if (!initialDraftId) return;
+    void listCvDrafts().then(list => {
+      const draft = list.find(d => d.id === initialDraftId);
+      if (!draft) return;
+      setCvId(draft.id); setTemplateId(draft.templateId); setData(draft.data); setTheme(draft.theme);
+      setHasStartedCv(true);
+      setScreen("editor"); setNavTab("content"); setMobileView("edit");
+    });
+    // Deliberately runs once per mount for the initial deep link — the CV
+    // tool stays mounted after that, so re-running on prop identity churn
+    // would fight the user's own in-editor navigation.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const stage = stageRef.current;

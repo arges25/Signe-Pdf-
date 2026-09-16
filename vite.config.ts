@@ -20,10 +20,10 @@ export default defineConfig({
       includeAssets: ["favicon.svg", "favicon-32.png", "apple-touch-icon.png"],
       manifest: {
         id: base,
-        name: "Signé — Signature de PDF",
-        short_name: "Signé",
+        name: "Easy Docs — Vos documents, simplement",
+        short_name: "Easy Docs",
         description:
-          "Importez un PDF, ajoutez votre signature et téléchargez le document signé. Vos fichiers restent sur votre appareil.",
+          "Signez, modifiez, scannez, créez vos documents et votre CV — tout se passe sur votre appareil, aucun fichier n'est jamais envoyé en ligne.",
         lang: "fr",
         dir: "ltr",
         start_url: base,

@@ -93,7 +93,7 @@ const PageContentEditable = memo(function PageContentEditable({ id, initialHtml,
   />;
 }, () => true);
 
-export default function DocumentTool({ onBack, onSignThis }: { onBack?: () => void; onSignThis: (file: File) => void }) {
+export default function DocumentTool({ onBack, onSignThis, initialDraftId }: { onBack?: () => void; onSignThis: (file: File) => void; initialDraftId?: string }) {
   const [screen, setScreen] = useState<Screen>("templates");
   const [draftMeta, setDraftMeta] = useState<DraftMeta | null>(null);
   const [pageIds, setPageIds] = useState<string[]>([]);
@@ -131,6 +131,17 @@ export default function DocumentTool({ onBack, onSignThis }: { onBack?: () => vo
   useEffect(() => { stateRef.current = { pageIds, signatures, draftMeta }; });
 
   useEffect(() => { void loadSavedSignature().then(saved => { if (saved) setAsset(current => current ?? saved); }); }, []);
+  useEffect(() => {
+    if (!initialDraftId) return;
+    void listDrafts().then(list => {
+      const draft = list.find(d => d.id === initialDraftId);
+      if (draft) openExistingDraft(draft);
+    });
+    // Runs once for the initial deep link only — the tool stays mounted
+    // after that, so re-running on identity churn would fight the user's
+    // own in-editor navigation.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
     // stageRef only points at a real element once the editor screen is
     // showing (the page stack isn't rendered on the template picker), so

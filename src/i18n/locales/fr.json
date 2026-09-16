@@ -41,19 +41,43 @@
     "privacyNote": "Tout reste sur votre appareil."
   },
   "home": {
-    "brand": "Signé",
-    "tagline": "La signature, simplement.",
-    "localBadge": "Tout reste sur votre appareil",
-    "heading": "Que voulez-vous faire ?",
-    "subtitle": "Tout se passe sur votre appareil : aucun document n’est jamais envoyé en ligne.",
-    "footer": "Un document. Vos corrections. Votre signature.",
+    "tagline": "Vos documents, simplement.",
     "cards": {
-      "sign": { "title": "Signer un PDF", "description": "Ajoutez votre signature à un document et téléchargez-le signé." },
-      "edit": { "title": "Modifier un PDF", "description": "Corrigez un texte, ajoutez une date, une coche ou un surlignage, puis signez si besoin." },
-      "scan": { "title": "Scanner / Image vers PDF", "description": "Photographiez ou importez un document, corrigez la perspective et créez un PDF." },
-      "document": { "title": "Créer un document", "description": "Rédigez une lettre ou une attestation à partir d’un modèle, puis signez ou exportez." },
-      "cv": { "title": "Créer un CV", "description": "Construisez un CV professionnel à partir de 15 modèles, personnalisez-le et exportez-le." },
-      "cta": "Commencer"
+      "sign": {
+        "title": "Signer un PDF",
+        "description": "Ajoutez votre signature à un document et téléchargez-le signé."
+      },
+      "edit": {
+        "title": "Modifier un PDF",
+        "description": "Corrigez un texte, ajoutez une date, une coche ou un surlignage, puis signez si besoin.",
+        "short": "Éditer, annoter, organiser"
+      },
+      "scan": {
+        "title": "Scanner / Image vers PDF",
+        "description": "Photographiez ou importez un document, corrigez la perspective et créez un PDF.",
+        "short": "Documents en un clic"
+      },
+      "document": {
+        "title": "Créer un document",
+        "description": "Rédigez une lettre ou une attestation à partir d’un modèle, puis signez ou exportez.",
+        "short": "Doc, PDF, modèle"
+      },
+      "cv": {
+        "title": "Créer un CV",
+        "description": "Construisez un CV professionnel à partir de 15 modèles, personnalisez-le et exportez-le.",
+        "short": "Modèles, export PDF"
+      }
+    },
+    "hero": {
+      "eyebrow": "SIMPLIFIEZ VOTRE QUOTIDIEN",
+      "heading": "Des outils puissants pour tous vos documents.",
+      "subtitle": "Scanner, modifier, créer, signer… Tout ce dont vous avez besoin, dans une seule app."
+    },
+    "recent": {
+      "title": "Documents récents",
+      "seeAll": "Tout voir",
+      "kindCv": "CV",
+      "kindDoc": "Document"
     }
   },
   "cv": {
@@ -62,135 +86,368 @@
       "subtitle": "Vous pourrez tout personnaliser ensuite, sans jamais perdre vos informations.",
       "use": "Utiliser ce modèle",
       "myCvs": "Mes CV",
-      "filters": { "all": "Tous", "classic": "Classique", "modern": "Moderne", "creative": "Créatif", "professional": "Professionnel", "student": "Étudiant", "withPhoto": "Avec photo", "withoutPhoto": "Sans photo", "oneColumn": "1 colonne", "twoColumns": "2 colonnes", "onePage": "1 page" }
+      "filters": {
+        "all": "Tous",
+        "classic": "Classique",
+        "modern": "Moderne",
+        "creative": "Créatif",
+        "professional": "Professionnel",
+        "student": "Étudiant",
+        "withPhoto": "Avec photo",
+        "withoutPhoto": "Sans photo",
+        "oneColumn": "1 colonne",
+        "twoColumns": "2 colonnes",
+        "onePage": "1 page"
+      }
     },
     "templates": {
       "names": {
-        "classic": "Classique Professionnel", "modernBlue": "Moderne Bleu", "minimalist": "Minimaliste",
-        "elegantPremium": "Élégant Premium", "largePhoto": "Grande Photo", "noPhoto": "Sans Photo",
-        "student": "Étudiant / Premier emploi", "sales": "Commercial / Vente", "technical": "Technique / BTP / Électricien",
-        "tech": "Informatique / Tech", "manager": "Cadre / Manager", "creative": "Créatif / Design",
-        "timeline": "Chronologique / Timeline", "compact": "Compact 1 page", "european": "Européen sobre"
+        "classic": "Classique Professionnel",
+        "modernBlue": "Moderne Bleu",
+        "minimalist": "Minimaliste",
+        "elegantPremium": "Élégant Premium",
+        "largePhoto": "Grande Photo",
+        "noPhoto": "Sans Photo",
+        "student": "Étudiant / Premier emploi",
+        "sales": "Commercial / Vente",
+        "technical": "Technique / BTP / Électricien",
+        "tech": "Informatique / Tech",
+        "manager": "Cadre / Manager",
+        "creative": "Créatif / Design",
+        "timeline": "Chronologique / Timeline",
+        "compact": "Compact 1 page",
+        "european": "Européen sobre"
       }
     },
-    "nav": { "content": "Contenu", "organize": "Organisation", "design": "Design", "preview": "Aperçu", "edit": "Modifier" },
+    "nav": {
+      "content": "Contenu",
+      "organize": "Organisation",
+      "design": "Design",
+      "preview": "Aperçu",
+      "edit": "Modifier"
+    },
     "sections": {
-      "personal": "Informations personnelles", "photo": "Photo", "profile": "Profil", "experience": "Expériences professionnelles",
-      "education": "Formation", "skills": "Compétences", "languages": "Langues", "certifications": "Certifications",
-      "permits": "Permis", "projects": "Projets", "interests": "Centres d’intérêt", "references": "Références",
-      "custom": "Sections personnalisées", "newSection": "+ Nouvelle section"
+      "personal": "Informations personnelles",
+      "photo": "Photo",
+      "profile": "Profil",
+      "experience": "Expériences professionnelles",
+      "education": "Formation",
+      "skills": "Compétences",
+      "languages": "Langues",
+      "certifications": "Certifications",
+      "permits": "Permis",
+      "projects": "Projets",
+      "interests": "Centres d’intérêt",
+      "references": "Références",
+      "custom": "Sections personnalisées",
+      "newSection": "+ Nouvelle section"
     },
     "personal": {
-      "firstName": "Prénom", "lastName": "Nom", "jobTitle": "Titre professionnel", "targetRole": "Métier recherché",
-      "address": "Adresse", "postalCode": "Code postal", "city": "Ville", "country": "Pays",
-      "phone": "Téléphone", "email": "E-mail", "birthDate": "Date de naissance", "nationality": "Nationalité",
-      "website": "Site internet", "linkedin": "LinkedIn", "github": "GitHub", "portfolio": "Portfolio",
-      "customLinks": "Autres liens", "addLink": "+ Ajouter un lien", "linkLabel": "Intitulé", "linkUrl": "Lien"
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "jobTitle": "Titre professionnel",
+      "targetRole": "Métier recherché",
+      "address": "Adresse",
+      "postalCode": "Code postal",
+      "city": "Ville",
+      "country": "Pays",
+      "phone": "Téléphone",
+      "email": "E-mail",
+      "birthDate": "Date de naissance",
+      "nationality": "Nationalité",
+      "website": "Site internet",
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "portfolio": "Portfolio",
+      "customLinks": "Autres liens",
+      "addLink": "+ Ajouter un lien",
+      "linkLabel": "Intitulé",
+      "linkUrl": "Lien"
     },
     "photo": {
-      "add": "Ajouter une photo", "take": "Prendre une photo", "import": "Importer depuis Photos", "remove": "Supprimer la photo",
-      "crop": "Recadrer", "zoom": "Zoom", "rotate": "Rotation", "move": "Déplacer",
-      "shape": "Forme", "shapeRound": "Ronde", "shapeSquare": "Carrée", "shapeRounded": "Coins arrondis", "shapePortrait": "Portrait",
-      "size": "Taille", "border": "Bordure", "borderColor": "Couleur de la bordure", "apply": "Valider", "cancel": "Annuler"
+      "add": "Ajouter une photo",
+      "take": "Prendre une photo",
+      "import": "Importer depuis Photos",
+      "remove": "Supprimer la photo",
+      "crop": "Recadrer",
+      "zoom": "Zoom",
+      "rotate": "Rotation",
+      "move": "Déplacer",
+      "shape": "Forme",
+      "shapeRound": "Ronde",
+      "shapeSquare": "Carrée",
+      "shapeRounded": "Coins arrondis",
+      "shapePortrait": "Portrait",
+      "size": "Taille",
+      "border": "Bordure",
+      "borderColor": "Couleur de la bordure",
+      "apply": "Valider",
+      "cancel": "Annuler"
     },
     "experience": {
-      "add": "+ Ajouter une expérience", "jobTitle": "Poste", "company": "Entreprise", "city": "Ville", "country": "Pays",
-      "startDate": "Date de début", "endDate": "Date de fin", "current": "Poste actuel",
-      "description": "Description, missions, réalisations", "descriptionHint": "Une ligne par point : elles s’afficheront en liste.",
+      "add": "+ Ajouter une expérience",
+      "jobTitle": "Poste",
+      "company": "Entreprise",
+      "city": "Ville",
+      "country": "Pays",
+      "startDate": "Date de début",
+      "endDate": "Date de fin",
+      "current": "Poste actuel",
+      "description": "Description, missions, réalisations",
+      "descriptionHint": "Une ligne par point : elles s’afficheront en liste.",
       "empty": "Aucune expérience pour le moment."
     },
     "education": {
-      "add": "+ Ajouter une formation", "degree": "Diplôme", "institution": "Établissement", "city": "Ville", "country": "Pays",
-      "startDate": "Date de début", "endDate": "Date de fin", "description": "Description", "honors": "Mention",
+      "add": "+ Ajouter une formation",
+      "degree": "Diplôme",
+      "institution": "Établissement",
+      "city": "Ville",
+      "country": "Pays",
+      "startDate": "Date de début",
+      "endDate": "Date de fin",
+      "description": "Description",
+      "honors": "Mention",
       "empty": "Aucune formation pour le moment."
     },
     "skills": {
-      "add": "+ Ajouter une compétence", "name": "Compétence", "level": "Niveau", "style": "Style d’affichage",
-      "styleList": "Liste", "styleBars": "Barres", "styleStars": "Étoiles", "styleDots": "Points", "styleBadges": "Badges/tags",
-      "levels": { "beginner": "Débutant", "intermediate": "Intermédiaire", "advanced": "Avancé", "expert": "Expert" },
+      "add": "+ Ajouter une compétence",
+      "name": "Compétence",
+      "level": "Niveau",
+      "style": "Style d’affichage",
+      "styleList": "Liste",
+      "styleBars": "Barres",
+      "styleStars": "Étoiles",
+      "styleDots": "Points",
+      "styleBadges": "Badges/tags",
+      "levels": {
+        "beginner": "Débutant",
+        "intermediate": "Intermédiaire",
+        "advanced": "Avancé",
+        "expert": "Expert"
+      },
       "empty": "Aucune compétence pour le moment."
     },
     "languages": {
-      "add": "+ Ajouter une langue", "name": "Langue", "level": "Niveau",
-      "levels": { "A1": "A1", "A2": "A2", "B1": "B1", "B2": "B2", "C1": "C1", "C2": "C2", "beginner": "Débutant", "intermediate": "Intermédiaire", "fluent": "Courant", "native": "Langue maternelle" },
+      "add": "+ Ajouter une langue",
+      "name": "Langue",
+      "level": "Niveau",
+      "levels": {
+        "A1": "A1",
+        "A2": "A2",
+        "B1": "B1",
+        "B2": "B2",
+        "C1": "C1",
+        "C2": "C2",
+        "beginner": "Débutant",
+        "intermediate": "Intermédiaire",
+        "fluent": "Courant",
+        "native": "Langue maternelle"
+      },
       "empty": "Aucune langue pour le moment."
     },
     "certifications": {
-      "add": "+ Ajouter une certification", "name": "Nom", "issuer": "Organisme", "date": "Date", "expiry": "Expiration", "url": "Lien",
+      "add": "+ Ajouter une certification",
+      "name": "Nom",
+      "issuer": "Organisme",
+      "date": "Date",
+      "expiry": "Expiration",
+      "url": "Lien",
       "empty": "Aucune certification pour le moment."
     },
-    "permits": { "add": "+ Ajouter un permis", "category": "Catégorie", "empty": "Aucun permis pour le moment." },
+    "permits": {
+      "add": "+ Ajouter un permis",
+      "category": "Catégorie",
+      "empty": "Aucun permis pour le moment."
+    },
     "projects": {
-      "add": "+ Ajouter un projet", "name": "Nom", "description": "Description", "technologies": "Technologies",
-      "date": "Date", "url": "Lien", "image": "Image", "empty": "Aucun projet pour le moment."
+      "add": "+ Ajouter un projet",
+      "name": "Nom",
+      "description": "Description",
+      "technologies": "Technologies",
+      "date": "Date",
+      "url": "Lien",
+      "image": "Image",
+      "empty": "Aucun projet pour le moment."
     },
     "interests": {
-      "add": "+ Ajouter un centre d’intérêt", "label": "Centre d’intérêt", "style": "Style d’affichage",
-      "styleText": "Texte", "styleList": "Liste", "styleTags": "Tags", "styleIcons": "Icônes",
+      "add": "+ Ajouter un centre d’intérêt",
+      "label": "Centre d’intérêt",
+      "style": "Style d’affichage",
+      "styleText": "Texte",
+      "styleList": "Liste",
+      "styleTags": "Tags",
+      "styleIcons": "Icônes",
       "empty": "Aucun centre d’intérêt pour le moment."
     },
     "references": {
-      "name": "Nom", "jobTitle": "Poste", "company": "Entreprise", "phone": "Téléphone", "email": "E-mail",
-      "add": "+ Ajouter une référence", "availableOnRequest": "Afficher « Références disponibles sur demande »",
+      "name": "Nom",
+      "jobTitle": "Poste",
+      "company": "Entreprise",
+      "phone": "Téléphone",
+      "email": "E-mail",
+      "add": "+ Ajouter une référence",
+      "availableOnRequest": "Afficher « Références disponibles sur demande »",
       "empty": "Aucune référence pour le moment."
     },
     "custom": {
-      "title": "Titre de la section", "titlePlaceholder": "Ex. Habilitations, Logiciels, Bénévolat…",
-      "addItem": "+ Ajouter un élément", "itemTitle": "Titre", "itemSubtitle": "Sous-titre", "itemDate": "Date", "itemDescription": "Description",
+      "title": "Titre de la section",
+      "titlePlaceholder": "Ex. Habilitations, Logiciels, Bénévolat…",
+      "addItem": "+ Ajouter un élément",
+      "itemTitle": "Titre",
+      "itemSubtitle": "Sous-titre",
+      "itemDate": "Date",
+      "itemDescription": "Description",
       "deleteSection": "Supprimer la section"
     },
     "organize": {
-      "title": "Organisation du CV", "subtitle": "Réorganisez, masquez ou renommez les sections — vos données restent intactes.",
-      "hide": "Masquer", "show": "Afficher", "renamePlaceholder": "Titre de la section"
+      "title": "Organisation du CV",
+      "subtitle": "Réorganisez, masquez ou renommez les sections — vos données restent intactes.",
+      "hide": "Masquer",
+      "show": "Afficher",
+      "renamePlaceholder": "Titre de la section"
     },
     "design": {
-      "colors": "Couleurs", "primary": "Couleur principale", "secondary": "Secondaire", "accent": "Accent",
-      "text": "Texte", "heading": "Titres", "background": "Arrière-plan", "sidebar": "Colonne latérale",
+      "colors": "Couleurs",
+      "primary": "Couleur principale",
+      "secondary": "Secondaire",
+      "accent": "Accent",
+      "text": "Texte",
+      "heading": "Titres",
+      "background": "Arrière-plan",
+      "sidebar": "Colonne latérale",
       "customColor": "Couleur personnalisée",
       "palettes": {
-        "blue": "Bleu professionnel", "navy": "Bleu marine", "mono": "Noir & blanc", "gray": "Gris", "green": "Vert",
-        "burgundy": "Bordeaux", "beige": "Beige", "violet": "Violet", "orange": "Orange", "turquoise": "Turquoise",
-        "brown": "Marron", "gold": "Or / Premium"
+        "blue": "Bleu professionnel",
+        "navy": "Bleu marine",
+        "mono": "Noir & blanc",
+        "gray": "Gris",
+        "green": "Vert",
+        "burgundy": "Bordeaux",
+        "beige": "Beige",
+        "violet": "Violet",
+        "orange": "Orange",
+        "turquoise": "Turquoise",
+        "brown": "Marron",
+        "gold": "Or / Premium"
       },
-      "fonts": "Polices", "fontName": "Police du nom", "fontHeading": "Police des titres", "fontBody": "Police du contenu",
-      "typography": "Typographie", "sizeName": "Taille du nom", "sizeJobTitle": "Taille du métier", "sizeHeading": "Taille des titres",
-      "sizeBody": "Taille du texte", "lineHeight": "Interligne", "paragraphSpacing": "Espace entre paragraphes",
-      "sectionSpacing": "Espace entre sections", "uppercaseHeadings": "Titres en majuscules", "boldHeadings": "Titres en gras",
+      "fonts": "Polices",
+      "fontName": "Police du nom",
+      "fontHeading": "Police des titres",
+      "fontBody": "Police du contenu",
+      "typography": "Typographie",
+      "sizeName": "Taille du nom",
+      "sizeJobTitle": "Taille du métier",
+      "sizeHeading": "Taille des titres",
+      "sizeBody": "Taille du texte",
+      "lineHeight": "Interligne",
+      "paragraphSpacing": "Espace entre paragraphes",
+      "sectionSpacing": "Espace entre sections",
+      "uppercaseHeadings": "Titres en majuscules",
+      "boldHeadings": "Titres en gras",
       "letterSpacing": "Espacement des lettres",
-      "layout": "Mise en page", "columns": "Colonnes", "oneColumn": "1 colonne", "twoColumns": "2 colonnes",
-      "columnSplit": "Disposition", "narrowLeft": "Gauche étroite / droite large", "wideLeft": "Gauche large / droite étroite",
+      "layout": "Mise en page",
+      "columns": "Colonnes",
+      "oneColumn": "1 colonne",
+      "twoColumns": "2 colonnes",
+      "columnSplit": "Disposition",
+      "narrowLeft": "Gauche étroite / droite large",
+      "wideLeft": "Gauche large / droite étroite",
       "sidebarWidth": "Largeur de la colonne latérale",
-      "spacing": "Marges et espacements", "spacingCompact": "Compact", "spacingNormal": "Normal", "spacingAiry": "Aéré", "margin": "Marges",
-      "icons": "Icônes", "iconsEnabled": "Icônes activées",
-      "dateFormat": "Format des dates", "dateFormatMonthYear": "Mois année", "dateFormatNumeric": "MM/AAAA", "dateFormatYearOnly": "Année seule",
-      "resetStyle": "Réinitialiser le style", "resetStyleConfirm": "Remettre les couleurs, polices, disposition et espacements du modèle d’origine ? Vos informations ne seront pas touchées."
+      "spacing": "Marges et espacements",
+      "spacingCompact": "Compact",
+      "spacingNormal": "Normal",
+      "spacingAiry": "Aéré",
+      "margin": "Marges",
+      "icons": "Icônes",
+      "iconsEnabled": "Icônes activées",
+      "dateFormat": "Format des dates",
+      "dateFormatMonthYear": "Mois année",
+      "dateFormatNumeric": "MM/AAAA",
+      "dateFormatYearOnly": "Année seule",
+      "resetStyle": "Réinitialiser le style",
+      "resetStyleConfirm": "Remettre les couleurs, polices, disposition et espacements du modèle d’origine ? Vos informations ne seront pas touchées."
     },
     "qr": {
-      "title": "QR code", "enable": "Ajouter un QR code", "url": "Lien (LinkedIn, GitHub, portfolio…)",
-      "size": "Taille", "position": "Position", "bottomRight": "Bas à droite", "bottomLeft": "Bas à gauche", "topRight": "Haut à droite", "sidebar": "Colonne latérale"
+      "title": "QR code",
+      "enable": "Ajouter un QR code",
+      "url": "Lien (LinkedIn, GitHub, portfolio…)",
+      "size": "Taille",
+      "position": "Position",
+      "bottomRight": "Bas à droite",
+      "bottomLeft": "Bas à gauche",
+      "topRight": "Haut à droite",
+      "sidebar": "Colonne latérale"
     },
     "signature": {
-      "add": "Ajouter ma signature", "enable": "Afficher ma signature", "size": "Taille"
+      "add": "Ajouter ma signature",
+      "enable": "Afficher ma signature",
+      "size": "Taille"
     },
     "myCvs": {
-      "title": "Mes CV", "empty": "Aucun CV enregistré pour l’instant.", "modified": "Modifié le",
-      "rename": "Renommer", "duplicate": "Dupliquer", "delete": "Supprimer", "open": "Ouvrir",
-      "deleteConfirm": "Supprimer ce CV définitivement ?", "newName": "Nouveau nom"
+      "title": "Mes CV",
+      "empty": "Aucun CV enregistré pour l’instant.",
+      "modified": "Modifié le",
+      "rename": "Renommer",
+      "duplicate": "Dupliquer",
+      "delete": "Supprimer",
+      "open": "Ouvrir",
+      "deleteConfirm": "Supprimer ce CV définitivement ?",
+      "newName": "Nouveau nom"
     },
-    "changeTemplate": { "button": "Changer de modèle", "subtitle": "Vos informations sont conservées." },
-    "cvLanguage": { "label": "Langue du CV" },
+    "changeTemplate": {
+      "button": "Changer de modèle",
+      "subtitle": "Vos informations sont conservées."
+    },
+    "cvLanguage": {
+      "label": "Langue du CV"
+    },
     "export": {
-      "button": "Exporter", "title": "Exporter le CV", "filename": "Nom du fichier", "format": "Format",
-      "pdf": "PDF", "pdfDescription": "le plus fidèle, texte net", "word": "Word",
-      "wordDescription": "modifiable dans Word / LibreOffice", "save": "Enregistrer",
-      "continueToSign": "Continuer vers la signature", "print": "Imprimer", "share": "Partager"
+      "button": "Exporter",
+      "title": "Exporter le CV",
+      "filename": "Nom du fichier",
+      "format": "Format",
+      "pdf": "PDF",
+      "pdfDescription": "le plus fidèle, texte net",
+      "word": "Word",
+      "wordDescription": "modifiable dans Word / LibreOffice",
+      "save": "Enregistrer",
+      "continueToSign": "Continuer vers la signature",
+      "print": "Imprimer",
+      "share": "Partager"
     },
     "overflow": {
-      "message": "Votre CV dépasse une page.", "reduceSpacing": "Réduire les espacements",
-      "reduceSize": "Réduire légèrement la taille", "useCompact": "Utiliser le modèle Compact", "acceptMultiPage": "Passer à plusieurs pages"
+      "message": "Votre CV dépasse une page.",
+      "reduceSpacing": "Réduire les espacements",
+      "reduceSize": "Réduire légèrement la taille",
+      "useCompact": "Utiliser le modèle Compact",
+      "acceptMultiPage": "Passer à plusieurs pages"
     },
-    "sort": { "auto": "Trier automatiquement", "recentFirst": "Du plus récent au plus ancien" },
+    "sort": {
+      "auto": "Trier automatiquement",
+      "recentFirst": "Du plus récent au plus ancien"
+    },
     "privacy": "Tout reste sur votre appareil.",
     "draftSaved": "Enregistré"
+  },
+  "nav": {
+    "home": "Accueil",
+    "tools": "Outils",
+    "docs": "Docs",
+    "settings": "Réglages",
+    "label": "Navigation principale"
+  },
+  "tools": {
+    "categoryPdf": "PDF",
+    "categoryDocs": "Documents & CV",
+    "searchPlaceholder": "Rechercher un outil…",
+    "noResults": "Aucun outil ne correspond à votre recherche."
+  },
+  "docs": {
+    "subtitle": "Vos CV et documents enregistrés sur cet appareil.",
+    "empty": "Aucun document pour le moment. Créez un CV ou un document pour le retrouver ici."
+  },
+  "settings": {
+    "language": "Langue",
+    "privacy": "Confidentialité"
   }
 }
