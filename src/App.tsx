@@ -4,8 +4,9 @@ import SignTool from "./sign-tool";
 import EditTool from "./edit-tool";
 import ScanTool from "./scan-tool";
 import DocumentTool from "./document-tool";
+import CvTool from "./cv/CvTool";
 
-type Mode = "home" | "sign" | "edit" | "scan" | "create";
+type Mode = "home" | "sign" | "edit" | "scan" | "create" | "cv";
 
 // SignTool, EditTool, ScanTool and DocumentTool are lazily mounted on
 // first visit, then kept mounted forever (only their visibility toggles).
@@ -19,6 +20,7 @@ export default function App() {
   const [visitedEdit, setVisitedEdit] = useState(false);
   const [visitedScan, setVisitedScan] = useState(false);
   const [visitedCreate, setVisitedCreate] = useState(false);
+  const [visitedCv, setVisitedCv] = useState(false);
   const [signHandoff, setSignHandoff] = useState<{ file: File; token: number } | null>(null);
   const [editHandoff, setEditHandoff] = useState<{ file: File; token: number } | null>(null);
 
@@ -27,14 +29,16 @@ export default function App() {
   function goEdit() { setVisitedEdit(true); setMode("edit"); }
   function goScan() { setVisitedScan(true); setMode("scan"); }
   function goCreate() { setVisitedCreate(true); setMode("create"); }
+  function goCv() { setVisitedCv(true); setMode("cv"); }
   function signThis(file: File) { setSignHandoff({ file, token: Date.now() }); setVisitedSign(true); setMode("sign"); }
   function editThis(file: File) { setEditHandoff({ file, token: Date.now() }); setVisitedEdit(true); setMode("edit"); }
 
   return <>
-    <div style={{ display: mode === "home" ? "block" : "none" }}><Home onSign={goSign} onEdit={goEdit} onScan={goScan} onCreate={goCreate} /></div>
+    <div style={{ display: mode === "home" ? "block" : "none" }}><Home onSign={goSign} onEdit={goEdit} onScan={goScan} onCreate={goCreate} onCv={goCv} /></div>
     {visitedSign && <div style={{ display: mode === "sign" ? "block" : "none" }}><SignTool onBack={goHome} handoff={signHandoff} /></div>}
     {visitedEdit && <div style={{ display: mode === "edit" ? "block" : "none" }}><EditTool onBack={goHome} onSignThis={signThis} handoff={editHandoff} /></div>}
     {visitedScan && <div style={{ display: mode === "scan" ? "block" : "none" }}><ScanTool onBack={goHome} onEditThis={editThis} onSignThis={signThis} /></div>}
     {visitedCreate && <div style={{ display: mode === "create" ? "block" : "none" }}><DocumentTool onBack={goHome} onSignThis={signThis} /></div>}
+    {visitedCv && <div style={{ display: mode === "cv" ? "block" : "none" }}><CvTool onBack={goHome} onSignThis={signThis} /></div>}
   </>;
 }

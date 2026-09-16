@@ -1,0 +1,59 @@
+{
+  "language": {
+    "fr": "Français",
+    "en": "English",
+    "de": "Deutsch",
+    "tr": "Türkçe",
+    "selectLabel": "Changer de langue"
+  },
+  "common": {
+    "ok": "OK",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "saved": "Enregistré",
+    "saving": "Enregistrement…",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "duplicate": "Dupliquer",
+    "rename": "Renommer",
+    "close": "Fermer",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "back": "Retour",
+    "add": "Ajouter",
+    "confirm": "Confirmer",
+    "loading": "Chargement…",
+    "search": "Rechercher",
+    "all": "Tous",
+    "none": "Aucun",
+    "optional": "facultatif",
+    "yes": "Oui",
+    "no": "Non",
+    "download": "Télécharger",
+    "share": "Partager",
+    "print": "Imprimer",
+    "untitled": "Sans titre",
+    "open": "Ouvrir",
+    "create": "Créer",
+    "continue": "Continuer",
+    "reset": "Réinitialiser",
+    "remove": "Retirer",
+    "privacyNote": "Tout reste sur votre appareil."
+  },
+  "home": {
+    "brand": "Signé",
+    "tagline": "La signature, simplement.",
+    "localBadge": "Tout reste sur votre appareil",
+    "heading": "Que voulez-vous faire ?",
+    "subtitle": "Tout se passe sur votre appareil : aucun document n’est jamais envoyé en ligne.",
+    "footer": "Un document. Vos corrections. Votre signature.",
+    "cards": {
+      "sign": { "title": "Signer un PDF", "description": "Ajoutez votre signature à un document et téléchargez-le signé." },
+      "edit": { "title": "Modifier un PDF", "description": "Corrigez un texte, ajoutez une date, une coche ou un surlignage, puis signez si besoin." },
+      "scan": { "title": "Scanner / Image vers PDF", "description": "Photographiez ou importez un document, corrigez la perspective et créez un PDF." },
+      "document": { "title": "Créer un document", "description": "Rédigez une lettre ou une attestation à partir d’un modèle, puis signez ou exportez." },
+      "cv": { "title": "Créer un CV", "description": "Construisez un CV professionnel à partir de 15 modèles, personnalisez-le et exportez-le." },
+      "cta": "Commencer"
+    }
+  }
+}

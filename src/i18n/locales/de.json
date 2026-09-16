@@ -1,0 +1,59 @@
+{
+  "language": {
+    "fr": "Français",
+    "en": "English",
+    "de": "Deutsch",
+    "tr": "Türkçe",
+    "selectLabel": "Sprache ändern"
+  },
+  "common": {
+    "ok": "OK",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "saved": "Gespeichert",
+    "saving": "Wird gespeichert…",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "duplicate": "Duplizieren",
+    "rename": "Umbenennen",
+    "close": "Schließen",
+    "next": "Weiter",
+    "previous": "Zurück",
+    "back": "Zurück",
+    "add": "Hinzufügen",
+    "confirm": "Bestätigen",
+    "loading": "Wird geladen…",
+    "search": "Suchen",
+    "all": "Alle",
+    "none": "Keine",
+    "optional": "optional",
+    "yes": "Ja",
+    "no": "Nein",
+    "download": "Herunterladen",
+    "share": "Teilen",
+    "print": "Drucken",
+    "untitled": "Ohne Titel",
+    "open": "Öffnen",
+    "create": "Erstellen",
+    "continue": "Weiter",
+    "reset": "Zurücksetzen",
+    "remove": "Entfernen",
+    "privacyNote": "Alles bleibt auf Ihrem Gerät."
+  },
+  "home": {
+    "brand": "Signé",
+    "tagline": "Unterschreiben, ganz einfach.",
+    "localBadge": "Alles bleibt auf Ihrem Gerät",
+    "heading": "Was möchten Sie tun?",
+    "subtitle": "Alles geschieht auf Ihrem Gerät: Kein Dokument wird jemals online gesendet.",
+    "footer": "Ein Dokument. Ihre Korrekturen. Ihre Unterschrift.",
+    "cards": {
+      "sign": { "title": "PDF unterschreiben", "description": "Fügen Sie Ihre Unterschrift zu einem Dokument hinzu und laden Sie es signiert herunter." },
+      "edit": { "title": "PDF bearbeiten", "description": "Korrigieren Sie einen Text, fügen Sie ein Datum, ein Häkchen oder eine Markierung hinzu und unterschreiben Sie bei Bedarf." },
+      "scan": { "title": "Scannen / Bild zu PDF", "description": "Fotografieren oder importieren Sie ein Dokument, korrigieren Sie die Perspektive und erstellen Sie ein PDF." },
+      "document": { "title": "Dokument erstellen", "description": "Verfassen Sie einen Brief oder eine Bescheinigung aus einer Vorlage und unterschreiben oder exportieren Sie ihn." },
+      "cv": { "title": "Lebenslauf erstellen", "description": "Erstellen Sie einen professionellen Lebenslauf aus 15 Vorlagen, passen Sie ihn an und exportieren Sie ihn." },
+      "cta": "Loslegen"
+    }
+  }
+}

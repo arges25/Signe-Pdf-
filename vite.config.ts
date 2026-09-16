@@ -44,7 +44,12 @@ export default defineConfig({
         // loaded only when actually needed, so they are runtime-cached
         // instead of bloating the initial install.
         globPatterns: ["**/*.{js,css,html,svg,png,woff,woff2}"],
-        globIgnores: ["pdf-assets/**"],
+        // The CV builder's font library (public/fonts/cv/) is large and
+        // mostly unused per visit — only the handful of families a given
+        // CV actually selects are ever needed — so, like pdf-assets, it's
+        // fetched and cached at runtime on first use instead of being
+        // downloaded on every install.
+        globIgnores: ["pdf-assets/**", "fonts/cv/**"],
         maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
         navigateFallback: `${base}index.html`,
         runtimeCaching: [
@@ -59,6 +64,15 @@ export default defineConfig({
             options: {
               cacheName: "pdf-assets-v2",
               expiration: { maxEntries: 300, maxAgeSeconds: 60 * 60 * 24 * 7 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+          {
+            urlPattern: /\/fonts\/cv\//,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "cv-fonts-v1",
+              expiration: { maxEntries: 60, maxAgeSeconds: 60 * 60 * 24 * 30 },
               cacheableResponse: { statuses: [0, 200] },
             },
           },

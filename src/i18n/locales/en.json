@@ -1,0 +1,59 @@
+{
+  "language": {
+    "fr": "Français",
+    "en": "English",
+    "de": "Deutsch",
+    "tr": "Türkçe",
+    "selectLabel": "Change language"
+  },
+  "common": {
+    "ok": "OK",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saved": "Saved",
+    "saving": "Saving…",
+    "delete": "Delete",
+    "edit": "Edit",
+    "duplicate": "Duplicate",
+    "rename": "Rename",
+    "close": "Close",
+    "next": "Next",
+    "previous": "Previous",
+    "back": "Back",
+    "add": "Add",
+    "confirm": "Confirm",
+    "loading": "Loading…",
+    "search": "Search",
+    "all": "All",
+    "none": "None",
+    "optional": "optional",
+    "yes": "Yes",
+    "no": "No",
+    "download": "Download",
+    "share": "Share",
+    "print": "Print",
+    "untitled": "Untitled",
+    "open": "Open",
+    "create": "Create",
+    "continue": "Continue",
+    "reset": "Reset",
+    "remove": "Remove",
+    "privacyNote": "Everything stays on your device."
+  },
+  "home": {
+    "brand": "Signé",
+    "tagline": "Signing, simply.",
+    "localBadge": "Everything stays on your device",
+    "heading": "What would you like to do?",
+    "subtitle": "Everything happens on your device: no document is ever sent online.",
+    "footer": "One document. Your corrections. Your signature.",
+    "cards": {
+      "sign": { "title": "Sign a PDF", "description": "Add your signature to a document and download it signed." },
+      "edit": { "title": "Edit a PDF", "description": "Fix a text, add a date, a checkmark or a highlight, then sign if needed." },
+      "scan": { "title": "Scan / Image to PDF", "description": "Photograph or import a document, correct the perspective and create a PDF." },
+      "document": { "title": "Create a document", "description": "Write a letter or a certificate from a template, then sign or export." },
+      "cv": { "title": "Create a CV", "description": "Build a professional CV from 15 templates, customize it and export it." },
+      "cta": "Get started"
+    }
+  }
+}

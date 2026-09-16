@@ -1,0 +1,59 @@
+{
+  "language": {
+    "fr": "Français",
+    "en": "English",
+    "de": "Deutsch",
+    "tr": "Türkçe",
+    "selectLabel": "Dili değiştir"
+  },
+  "common": {
+    "ok": "Tamam",
+    "cancel": "İptal",
+    "save": "Kaydet",
+    "saved": "Kaydedildi",
+    "saving": "Kaydediliyor…",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "duplicate": "Çoğalt",
+    "rename": "Yeniden adlandır",
+    "close": "Kapat",
+    "next": "İleri",
+    "previous": "Geri",
+    "back": "Geri",
+    "add": "Ekle",
+    "confirm": "Onayla",
+    "loading": "Yükleniyor…",
+    "search": "Ara",
+    "all": "Tümü",
+    "none": "Hiçbiri",
+    "optional": "isteğe bağlı",
+    "yes": "Evet",
+    "no": "Hayır",
+    "download": "İndir",
+    "share": "Paylaş",
+    "print": "Yazdır",
+    "untitled": "Adsız",
+    "open": "Aç",
+    "create": "Oluştur",
+    "continue": "Devam et",
+    "reset": "Sıfırla",
+    "remove": "Kaldır",
+    "privacyNote": "Her şey cihazınızda kalır."
+  },
+  "home": {
+    "brand": "Signé",
+    "tagline": "İmzalamak, basitçe.",
+    "localBadge": "Her şey cihazınızda kalır",
+    "heading": "Ne yapmak istersiniz?",
+    "subtitle": "Her şey cihazınızda gerçekleşir: hiçbir belge internete gönderilmez.",
+    "footer": "Bir belge. Düzeltmeleriniz. İmzanız.",
+    "cards": {
+      "sign": { "title": "PDF İmzala", "description": "İmzanızı bir belgeye ekleyin ve imzalanmış olarak indirin." },
+      "edit": { "title": "PDF Düzenle", "description": "Bir metni düzeltin, tarih, onay işareti veya vurgulama ekleyin, gerekirse imzalayın." },
+      "scan": { "title": "Tara / Görüntüden PDF'e", "description": "Bir belgeyi fotoğraflayın veya içe aktarın, perspektifi düzeltin ve bir PDF oluşturun." },
+      "document": { "title": "Belge Oluştur", "description": "Bir şablondan mektup veya belge yazın, ardından imzalayın veya dışa aktarın." },
+      "cv": { "title": "CV Oluştur", "description": "15 şablondan profesyonel bir CV oluşturun, kişiselleştirin ve dışa aktarın." },
+      "cta": "Başla"
+    }
+  }
+}

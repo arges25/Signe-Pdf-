@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { registerSW } from "virtual:pwa-register";
 import App from "./App";
+import "./i18n";
 import "./styles/globals.css";
 
 // The default HTML-injected service worker registration only registers —
