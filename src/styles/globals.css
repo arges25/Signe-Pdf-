@@ -98,16 +98,31 @@
 * { box-sizing: border-box; }
 html { color-scheme: light; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body {
-  margin: 0; background: #f9fafc; color: #18263c; font-family: "Manrope Variable", sans-serif; font-size: 16px; line-height: 1.6;
+  margin: 0; background: #eef1fb; color: #18263c; font-family: "Manrope Variable", sans-serif; font-size: 16px; line-height: 1.6;
   overscroll-behavior-y: contain;
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
+
+/* ===== Global animated backdrop (mounted once, sits behind every screen) ===== */
+.app-bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: linear-gradient(180deg, #eef1fb, #e8ecfa); }
+.app-shell { position: relative; z-index: 1; min-height: 100dvh; }
+.app-bg-blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.55; will-change: transform; }
+.app-bg-blob-1 { width: 52vw; height: 52vw; max-width: 620px; max-height: 620px; top: -14vw; left: -10vw; background: radial-gradient(circle, #a8c1ff, transparent 70%); animation: app-bg-float-1 34s ease-in-out infinite; }
+.app-bg-blob-2 { width: 44vw; height: 44vw; max-width: 520px; max-height: 520px; top: 8vw; right: -14vw; background: radial-gradient(circle, #c9b6ff, transparent 70%); animation: app-bg-float-2 40s ease-in-out infinite; }
+.app-bg-blob-3 { width: 48vw; height: 48vw; max-width: 560px; max-height: 560px; bottom: -16vw; left: 6vw; background: radial-gradient(circle, #b9d0ff, transparent 70%); animation: app-bg-float-3 46s ease-in-out infinite; }
+.app-bg-blob-4 { width: 36vw; height: 36vw; max-width: 420px; max-height: 420px; bottom: 4vw; right: 8vw; background: radial-gradient(circle, #ddd0ff, transparent 70%); animation: app-bg-float-4 38s ease-in-out infinite; }
+@keyframes app-bg-float-1 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(4vw, 3vw) scale(1.08); } }
+@keyframes app-bg-float-2 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-3vw, 4vw) scale(1.06); } }
+@keyframes app-bg-float-3 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(3vw, -3vw) scale(1.1); } }
+@keyframes app-bg-float-4 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-4vw, -2vw) scale(1.05); } }
+@media (prefers-reduced-motion: reduce) { .app-bg-blob { animation: none !important; } }
+@media (max-width: 640px) { .app-bg-blob { filter: blur(50px); opacity: 0.45; } }
 button, input { font: inherit; }
 button, a, [role="button"] { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 button:not(:disabled), [role="button"]:not(:disabled) { cursor: pointer; }
 button:disabled { cursor: not-allowed; }
 button:focus-visible, a:focus-visible { outline: 3px solid #2457ea; outline-offset: 4px; }
-.site-header { height: 88px; display: flex; align-items: center; padding: 0 max(32px, calc((100vw - 1360px)/2)); background: #fff; border-bottom: 1px solid #e8ecf3; gap: 25px; }
+.site-header { height: 88px; display: flex; align-items: center; padding: 0 max(32px, calc((100vw - 1360px)/2)); background: rgba(255, 255, 255, 0.82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid #e8ecf3; gap: 25px; position: relative; z-index: 1; }
 .local-badge { margin-left: auto; display: flex; gap: 8px; align-items: center; font-size: 13px; font-weight: 550; color: #47715f; background: #f0f8f3; padding: 7px 12px; border: 1px solid #dfede4; border-radius: 30px; }
 .main-content { max-width: 1424px; padding: 37px 32px 18px; margin: 0 auto; }
 .workspace-heading { display: flex; align-items: center; justify-content: space-between; gap: 30px; margin-bottom: 27px; }
@@ -183,14 +198,20 @@ h1 { font-size: 30px; font-weight: 750; letter-spacing: -1px; line-height: 1.5; 
 .page-shell { position: relative; background: #fff; box-shadow: 0 4px 16px #18263c1c; margin: 0 auto; flex-shrink: 0; }
 .pdf-canvas { position: absolute; width: 100%; height: 100%; display: block; }
 .is-placing { cursor: crosshair; outline: 2px solid #2457ea; outline-offset: 3px; }
+/* While an edit tool other than Sélection is active, a one-finger drag must
+   draw/annotate instead of triggering the stage's native scroll — the
+   two-finger pinch-zoom listener is attached to the outer scroll container
+   and works via raw touch events regardless of this element's touch-action. */
+.page-shell.is-placing { touch-action: none; }
 .placed-signature { position: absolute; padding: 0; border: 0; background: transparent; touch-action: none; cursor: grab !important; outline: 1.5px solid transparent; }
 .placed-signature img { width: 100%; height: 100%; object-fit: fill; display: block; pointer-events: none; user-select: none; }
 .placed-signature:hover { outline-color: #95b1ff; }
 .placed-signature.is-selected { outline-color: #2457ea; background: #2457ea04; }
 .placed-signature:focus-visible { outline-offset: 3px; }
 .placed-signature:active { cursor: grabbing !important; }
-.handle { position: absolute; width: 6px; height: 6px; background: #fff; border: 1px solid #2457ea; pointer-events: none; }
-.top-left { top: -4px; left: -4px; }.top-right { top: -4px; right: -4px; }.bottom-left { bottom: -4px; left: -4px; }.bottom-right { bottom: -4px; right: -4px; }
+.handle { position: absolute; width: 22px; height: 22px; margin: -11px; padding: 0; border: 0; background: transparent; display: flex; align-items: center; justify-content: center; touch-action: none; pointer-events: auto; }
+.handle::before { content: ""; width: 10px; height: 10px; background: #fff; border: 2px solid #2457ea; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+.top-left { top: 0; left: 0; cursor: nwse-resize; }.top-right { top: 0; right: 0; cursor: nesw-resize; }.bottom-left { bottom: 0; left: 0; cursor: nesw-resize; }.bottom-right { bottom: 0; right: 0; cursor: nwse-resize; }
 .page-loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 9px; color: #738199; font-size: 14px; }
 .page-pagination { margin: 0; width: auto; flex-shrink: 0; }
 .page-pagination button { height: 31px; width: 31px; color: #536780; }
@@ -617,7 +638,7 @@ h1 { font-size: 30px; font-weight: 750; letter-spacing: -1px; line-height: 1.5; 
 
 .ed-shell {
   min-height: 100dvh;
-  background: linear-gradient(180deg, var(--ed-bg-top), var(--ed-bg-bottom));
+  position: relative; z-index: 1; /* transparent — the shared .app-bg layer shows through */
   color: var(--ed-text);
   padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
 }
@@ -642,22 +663,30 @@ h1 { font-size: 30px; font-weight: 750; letter-spacing: -1px; line-height: 1.5; 
   position: relative; overflow: hidden; border-radius: var(--ed-radius-lg);
   background: var(--ed-surface); border: 1px solid var(--ed-border);
   backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-  box-shadow: var(--ed-shadow-md); padding: 26px 24px 24px; margin-bottom: 22px;
+  box-shadow: var(--ed-shadow-md); padding: 26px 24px 24px; margin-bottom: 18px;
 }
-.ed-hero-art { position: absolute; top: 46px; right: 10px; width: 108px; height: 108px; opacity: 0.92; pointer-events: none; }
-.ed-hero-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 1.6px; color: var(--ed-blue); text-transform: uppercase; margin: 0 0 10px; max-width: 68%; }
-.ed-hero h1 { font-size: 23px; font-weight: 800; line-height: 1.28; letter-spacing: -0.3px; margin: 0 0 10px; max-width: 68%; color: var(--ed-navy); }
-.ed-hero p { font-size: 14.5px; line-height: 1.55; color: var(--ed-text-secondary); margin: 0 0 20px; max-width: 88%; }
-.ed-hero-cta {
-  display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
-  background: var(--ed-gradient); color: #fff; border: 0; border-radius: 999px; height: 56px;
-  font-size: 16px; font-weight: 700; box-shadow: 0 14px 28px -10px rgba(84, 90, 230, 0.55);
-  transition: transform .15s ease, box-shadow .15s ease; cursor: pointer;
+.ed-hero-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 1.6px; color: var(--ed-blue); text-transform: uppercase; margin: 0 0 10px; }
+.ed-hero h1 { font-size: 23px; font-weight: 800; line-height: 1.28; letter-spacing: -0.3px; margin: 0 0 10px; color: var(--ed-navy); }
+.ed-hero p { font-size: 14.5px; line-height: 1.55; color: var(--ed-text-secondary); margin: 0; }
+.ed-hero-presentation { margin-bottom: 16px; }
+
+.ed-carousel { margin-bottom: 22px; }
+.ed-carousel-track {
+  display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-bottom: 2px; margin: 0 -18px; padding-left: 18px; padding-right: 18px;
 }
-.ed-hero-cta:hover { transform: translateY(-1px); box-shadow: 0 18px 34px -10px rgba(84, 90, 230, 0.6); }
-.ed-hero-cta:active { transform: scale(0.98); }
-.ed-hero-cta svg:last-child { transition: transform .15s ease; }
-.ed-hero-cta:hover svg:last-child { transform: translateX(2px); }
+.ed-carousel-track::-webkit-scrollbar { display: none; }
+.ed-carousel-slide {
+  flex: 0 0 100%; scroll-snap-align: start; background: var(--ed-surface);
+  border: 1px solid var(--ed-border); border-radius: var(--ed-radius-lg); padding: 22px 22px 24px;
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); box-shadow: var(--ed-shadow-md);
+}
+.ed-carousel-icon { width: 46px; height: 46px; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+.ed-carousel-slide h3 { font-size: 17px; font-weight: 800; color: var(--ed-navy); margin: 0 0 6px; }
+.ed-carousel-slide p { font-size: 13.5px; color: var(--ed-text-secondary); margin: 0; line-height: 1.5; }
+.ed-carousel-dots { display: flex; justify-content: center; gap: 6px; margin-top: 12px; }
+.ed-carousel-dot { width: 6px; height: 6px; border-radius: 999px; background: var(--ed-border); border: 0; padding: 0; cursor: pointer; transition: width .2s ease, background .2s ease; }
+.ed-carousel-dot[data-active="true"] { width: 20px; background: var(--ed-violet); }
 
 .ed-section { margin-bottom: 26px; }
 .ed-section-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 14px; }

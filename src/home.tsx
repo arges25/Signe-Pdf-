@@ -1,8 +1,53 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ArrowRight, ChevronRight, FileEdit, FilePlus2, IdCard, PenLine, ScanLine, User } from "lucide-react";
-import HeroIllustration from "./hero-illustration";
+import { ChevronRight, FileEdit, FilePlus2, IdCard, PenLine, ScanLine, Sparkles, User } from "lucide-react";
 import { listRecentDocuments, formatRelativeDate, type RecentDocument } from "./lib/recent-documents";
+
+function PresentationCarousel() {
+  const { t } = useTranslation();
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+
+  const slides = [
+    { key: "intro", title: t("home.carousel.intro.title"), desc: t("home.carousel.intro.desc"), icon: <Sparkles size={22} />, iconClass: "ed-tool-icon-sign" },
+    { key: "scan", title: t("home.carousel.scan.title"), desc: t("home.carousel.scan.desc"), icon: <ScanLine size={22} />, iconClass: "ed-tool-icon-scan" },
+    { key: "edit", title: t("home.carousel.edit.title"), desc: t("home.carousel.edit.desc"), icon: <FileEdit size={22} />, iconClass: "ed-tool-icon-edit" },
+    { key: "sign", title: t("home.carousel.sign.title"), desc: t("home.carousel.sign.desc"), icon: <PenLine size={22} />, iconClass: "ed-tool-icon-sign" },
+    { key: "create", title: t("home.carousel.create.title"), desc: t("home.carousel.create.desc"), icon: <FilePlus2 size={22} />, iconClass: "ed-tool-icon-create" },
+    { key: "cv", title: t("home.carousel.cv.title"), desc: t("home.carousel.cv.desc"), icon: <IdCard size={22} />, iconClass: "ed-tool-icon-cv" },
+  ];
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    function onScroll() {
+      if (!el) return;
+      setActive(Math.round(el.scrollLeft / Math.max(1, el.clientWidth)));
+    }
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, []);
+
+  function goTo(i: number) {
+    trackRef.current?.scrollTo({ left: i * trackRef.current.clientWidth, behavior: "smooth" });
+  }
+
+  return <div className="ed-carousel">
+    <div className="ed-carousel-track" ref={trackRef}>
+      {slides.map(slide => <div className="ed-carousel-slide" key={slide.key}>
+        <span className={`ed-carousel-icon ${slide.iconClass}`}>{slide.icon}</span>
+        <h3>{slide.title}</h3>
+        <p>{slide.desc}</p>
+      </div>)}
+    </div>
+    <div className="ed-carousel-dots" role="tablist" aria-label={t("home.carousel.intro.title")}>
+      {slides.map((slide, i) => <button
+        key={slide.key} type="button" className="ed-carousel-dot" data-active={i === active}
+        aria-label={slide.title} aria-selected={i === active} role="tab" onClick={() => goTo(i)}
+      />)}
+    </div>
+  </div>;
+}
 
 export default function Home({ onSign, onEdit, onScan, onCreate, onCv, onOpenCvDraft, onOpenDocDraft, onSettings, onSeeAllDocs }: {
   onSign: () => void; onEdit: () => void; onScan: () => void; onCreate: () => void; onCv: () => void;
@@ -14,7 +59,10 @@ export default function Home({ onSign, onEdit, onScan, onCreate, onCv, onOpenCvD
 
   useEffect(() => { void listRecentDocuments().then(setRecent); }, []);
 
+  // All five real tools presented at the same level — no single tool is
+  // pushed forward as "the" primary action.
   const tools = [
+    { key: "sign", title: t("home.cards.sign.title"), desc: t("home.cards.sign.short"), icon: <PenLine size={22} />, iconClass: "ed-tool-icon-sign", onClick: onSign },
     { key: "scan", title: t("home.cards.scan.title"), desc: t("home.cards.scan.short"), icon: <ScanLine size={22} />, iconClass: "ed-tool-icon-scan", onClick: onScan },
     { key: "edit", title: t("home.cards.edit.title"), desc: t("home.cards.edit.short"), icon: <FileEdit size={22} />, iconClass: "ed-tool-icon-edit", onClick: onEdit },
     { key: "create", title: t("home.cards.document.title"), desc: t("home.cards.document.short"), icon: <FilePlus2 size={22} />, iconClass: "ed-tool-icon-create", onClick: onCreate },
@@ -37,17 +85,13 @@ export default function Home({ onSign, onEdit, onScan, onCreate, onCv, onOpenCvD
         </button>
       </header>
 
-      <section className="ed-hero">
-        <div className="ed-hero-art"><HeroIllustration /></div>
+      <section className="ed-hero ed-hero-presentation">
         <p className="ed-hero-eyebrow">{t("home.hero.eyebrow")}</p>
         <h1>{t("home.hero.heading")}</h1>
         <p>{t("home.hero.subtitle")}</p>
-        <button type="button" className="ed-hero-cta" onClick={onSign}>
-          <PenLine size={19} />
-          <span>{t("home.cards.sign.title")}</span>
-          <ArrowRight size={18} />
-        </button>
       </section>
+
+      <PresentationCarousel />
 
       <section className="ed-section">
         <div className="ed-tool-grid">

@@ -45,7 +45,8 @@
     "cards": {
       "sign": {
         "title": "Sign a PDF",
-        "description": "Add your signature to a document and download it signed."
+        "description": "Add your signature to a document and download it signed.",
+        "short": "Add your signature and download"
       },
       "edit": {
         "title": "Edit a PDF",
@@ -78,6 +79,32 @@
       "seeAll": "See all",
       "kindCv": "CV",
       "kindDoc": "Document"
+    },
+    "carousel": {
+      "intro": {
+        "title": "Welcome to Easy Docs",
+        "desc": "Your toolbox for every document, with nothing ever sent online."
+      },
+      "scan": {
+        "title": "Scan in an instant",
+        "desc": "Photograph a document and get a crisp, ready-to-use PDF."
+      },
+      "edit": {
+        "title": "Edit effortlessly",
+        "desc": "Fix a text, highlight, redact a zone — right inside the PDF."
+      },
+      "sign": {
+        "title": "Sign from anywhere",
+        "desc": "Add your signature and download your signed document."
+      },
+      "create": {
+        "title": "Create a document",
+        "desc": "Letter, certificate or blank page — write and export in a few clicks."
+      },
+      "cv": {
+        "title": "Build your CV",
+        "desc": "15 professional templates, fully customizable."
+      }
     }
   },
   "cv": {

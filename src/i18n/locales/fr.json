@@ -45,7 +45,8 @@
     "cards": {
       "sign": {
         "title": "Signer un PDF",
-        "description": "Ajoutez votre signature à un document et téléchargez-le signé."
+        "description": "Ajoutez votre signature à un document et téléchargez-le signé.",
+        "short": "Ajoutez votre signature et téléchargez"
       },
       "edit": {
         "title": "Modifier un PDF",
@@ -78,6 +79,32 @@
       "seeAll": "Tout voir",
       "kindCv": "CV",
       "kindDoc": "Document"
+    },
+    "carousel": {
+      "intro": {
+        "title": "Bienvenue sur Easy Docs",
+        "desc": "Votre boîte à outils pour tous vos documents, sans rien envoyer en ligne."
+      },
+      "scan": {
+        "title": "Scanner en un instant",
+        "desc": "Photographiez un document et obtenez un PDF net, prêt à l'emploi."
+      },
+      "edit": {
+        "title": "Modifiez sans effort",
+        "desc": "Corrigez un texte, surlignez, masquez une zone — directement dans le PDF."
+      },
+      "sign": {
+        "title": "Signez où que vous soyez",
+        "desc": "Ajoutez votre signature et téléchargez votre document signé."
+      },
+      "create": {
+        "title": "Créez un document",
+        "desc": "Lettre, attestation ou page vierge — rédigez et exportez en quelques clics."
+      },
+      "cv": {
+        "title": "Construisez votre CV",
+        "desc": "15 modèles professionnels, entièrement personnalisables."
+      }
     }
   },
   "cv": {

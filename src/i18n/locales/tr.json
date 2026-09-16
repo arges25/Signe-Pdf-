@@ -45,7 +45,8 @@
     "cards": {
       "sign": {
         "title": "PDF İmzala",
-        "description": "İmzanızı bir belgeye ekleyin ve imzalanmış olarak indirin."
+        "description": "İmzanızı bir belgeye ekleyin ve imzalanmış olarak indirin.",
+        "short": "İmzanızı ekleyin ve indirin"
       },
       "edit": {
         "title": "PDF Düzenle",
@@ -78,6 +79,32 @@
       "seeAll": "Tümünü gör",
       "kindCv": "CV",
       "kindDoc": "Belge"
+    },
+    "carousel": {
+      "intro": {
+        "title": "Easy Docs'a hoş geldiniz",
+        "desc": "Hiçbir şey internete gönderilmeden tüm belgeleriniz için araç kutunuz."
+      },
+      "scan": {
+        "title": "Anında tarayın",
+        "desc": "Bir belgeyi fotoğraflayın ve kullanıma hazır net bir PDF elde edin."
+      },
+      "edit": {
+        "title": "Zahmetsizce düzenleyin",
+        "desc": "Bir metni düzeltin, vurgulayın, bir alanı gizleyin — doğrudan PDF içinde."
+      },
+      "sign": {
+        "title": "İstediğiniz yerden imzalayın",
+        "desc": "İmzanızı ekleyin ve imzalanmış belgenizi indirin."
+      },
+      "create": {
+        "title": "Bir belge oluşturun",
+        "desc": "Mektup, belge veya boş sayfa — birkaç tıklamayla yazın ve dışa aktarın."
+      },
+      "cv": {
+        "title": "CV'nizi oluşturun",
+        "desc": "15 profesyonel şablon, tamamen özelleştirilebilir."
+      }
     }
   },
   "cv": {

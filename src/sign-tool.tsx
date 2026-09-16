@@ -50,7 +50,13 @@ function blobExtension(mime: string): string {
   return "pdf";
 }
 
-type Drag = { id: string; pointerId: number; clientX: number; clientY: number; x: number; y: number; w: number; h: number; rect: DOMRect };
+type Drag = {
+  id: string; rect: DOMRect;
+  pointerId: number; startClientX: number; startClientY: number; liveX: number; liveY: number;
+  startX: number; startY: number; startW: number; startH: number;
+  pointer2Id?: number; liveX2?: number; liveY2?: number; pinchStartDist?: number;
+};
+type Resize = { id: string; corner: "tl" | "tr" | "bl" | "br"; pointerId: number; startClientX: number; startX: number; startY: number; startW: number; startH: number };
 type ModelTool = { name: string; description: string; inputSchema: object; annotations: { readOnlyHint: boolean; untrustedContentHint: boolean }; execute: (input: unknown) => unknown };
 
 export default function SignTool({ onBack, handoff }: { onBack?: () => void; handoff?: { file: File; token: number } | null }) {
@@ -63,6 +69,7 @@ export default function SignTool({ onBack, handoff }: { onBack?: () => void; han
   const imageRef = useRef<ImageDocument | null>(null);
   const busyRef = useRef(false);
   const dragRef = useRef<Drag | null>(null);
+  const resizeRef = useRef<Resize | null>(null);
   const objectUrl = useRef<string | null>(null);
   const dropDepth = useRef(0);
   const [pdf, setPdf] = useState<PDFDocumentProxy | null>(null);
@@ -253,21 +260,82 @@ export default function SignTool({ onBack, handoff }: { onBack?: () => void; han
   }
   function startDrag(e: PointerEvent<HTMLButtonElement>, stamp: Stamp) {
     e.stopPropagation();
-    if (e.button !== 0 || !pageRef.current || !ready || exporting || dragRef.current) return;
-    e.preventDefault(); e.currentTarget.focus({ preventScroll: true }); setSelected(stamp.id); setPlacing(false);
+    if (e.button !== 0 && e.pointerType === "mouse") return;
+    if (!pageRef.current || !ready || exporting) return;
     const rect = pageRef.current.getBoundingClientRect();
-    dragRef.current = { id: stamp.id, pointerId: e.pointerId, clientX: e.clientX, clientY: e.clientY, x: stamp.x, y: stamp.y, w: stamp.w, h: stamp.h, rect };
-    e.currentTarget.setPointerCapture(e.pointerId);
+    const existing = dragRef.current;
+    // A second finger landing on the same stamp starts a pinch gesture instead
+    // of a second independent drag — the first finger's live position feeds
+    // the distance calculation from here on.
+    if (existing && existing.id === stamp.id && existing.pointerId !== e.pointerId && existing.pointer2Id === undefined) {
+      existing.pointer2Id = e.pointerId; existing.liveX2 = e.clientX; existing.liveY2 = e.clientY;
+      existing.pinchStartDist = Math.hypot(existing.liveX - e.clientX, existing.liveY - e.clientY) || 1;
+      existing.startX = stamp.x; existing.startY = stamp.y; existing.startW = stamp.w; existing.startH = stamp.h;
+      e.preventDefault();
+      try { e.currentTarget.setPointerCapture(e.pointerId); } catch { /* pointer session already gone — the move/up handlers below still no-op safely */ }
+      return;
+    }
+    if (existing) return;
+    e.preventDefault(); e.currentTarget.focus({ preventScroll: true }); setSelected(stamp.id); setPlacing(false);
+    dragRef.current = {
+      id: stamp.id, rect, pointerId: e.pointerId, startClientX: e.clientX, startClientY: e.clientY,
+      liveX: e.clientX, liveY: e.clientY, startX: stamp.x, startY: stamp.y, startW: stamp.w, startH: stamp.h,
+    };
+    try { e.currentTarget.setPointerCapture(e.pointerId); } catch { /* pointer session already gone — the move/up handlers below still no-op safely */ }
   }
   function moveDrag(e: PointerEvent<HTMLButtonElement>) {
     const drag = dragRef.current;
-    if (!drag || e.pointerId !== drag.pointerId) return;
-    const x = clamp(drag.x + (e.clientX - drag.clientX) / drag.rect.width, 0, 1 - drag.w);
-    const y = clamp(drag.y + (e.clientY - drag.clientY) / drag.rect.height, 0, 1 - drag.h);
-    setStamps(items => items.map(s => s.id === drag.id ? { ...s, x, y } : s));
+    if (!drag) return;
+    if (e.pointerId === drag.pointerId) { drag.liveX = e.clientX; drag.liveY = e.clientY; }
+    else if (drag.pointer2Id !== undefined && e.pointerId === drag.pointer2Id) { drag.liveX2 = e.clientX; drag.liveY2 = e.clientY; }
+    else return;
+
+    if (drag.pointer2Id !== undefined && drag.liveX2 !== undefined && drag.liveY2 !== undefined) {
+      const dist = Math.hypot(drag.liveX - drag.liveX2, drag.liveY - drag.liveY2) || 1;
+      const scale = dist / (drag.pinchStartDist || 1);
+      const aspect = drag.startH / drag.startW;
+      let w = clamp(drag.startW * scale, 0.03, 0.9);
+      let h = w * aspect;
+      if (h > 0.95) { h = 0.95; w = h / aspect; }
+      const cx = drag.startX + drag.startW / 2, cy = drag.startY + drag.startH / 2;
+      const x = clamp(cx - w / 2, 0, 1 - w), y = clamp(cy - h / 2, 0, 1 - h);
+      setStamps(items => items.map(s => s.id === drag.id ? { ...s, w, h, x, y } : s));
+    } else {
+      const x = clamp(drag.startX + (drag.liveX - drag.startClientX) / drag.rect.width, 0, 1 - drag.startW);
+      const y = clamp(drag.startY + (drag.liveY - drag.startClientY) / drag.rect.height, 0, 1 - drag.startH);
+      setStamps(items => items.map(s => s.id === drag.id ? { ...s, x, y } : s));
+    }
   }
   function stopDrag(e: PointerEvent<HTMLButtonElement>) {
-    if (dragRef.current?.pointerId === e.pointerId) dragRef.current = null;
+    const drag = dragRef.current;
+    if (drag && (e.pointerId === drag.pointerId || e.pointerId === drag.pointer2Id)) dragRef.current = null;
+  }
+  function startResizeHandle(e: PointerEvent<HTMLSpanElement>, stamp: Stamp, corner: Resize["corner"]) {
+    e.stopPropagation();
+    if (e.button !== 0 && e.pointerType === "mouse") return;
+    if (!ready || exporting || resizeRef.current) return;
+    e.preventDefault();
+    resizeRef.current = { id: stamp.id, corner, pointerId: e.pointerId, startClientX: e.clientX, startX: stamp.x, startY: stamp.y, startW: stamp.w, startH: stamp.h };
+    try { e.currentTarget.setPointerCapture(e.pointerId); } catch { /* pointer session already gone — the move/up handlers below still no-op safely */ }
+    setSelected(stamp.id);
+  }
+  function moveResizeHandle(e: PointerEvent<HTMLSpanElement>) {
+    const r = resizeRef.current;
+    if (!r || e.pointerId !== r.pointerId || !pageRef.current) return;
+    const rect = pageRef.current.getBoundingClientRect();
+    const dxFrac = (e.clientX - r.startClientX) / rect.width;
+    const aspect = r.startH / r.startW;
+    const sign = r.corner === "tl" || r.corner === "bl" ? -1 : 1;
+    let w = clamp(r.startW + sign * dxFrac, 0.03, 0.9);
+    let h = w * aspect;
+    if (h > 0.95) { h = 0.95; w = h / aspect; }
+    let x = r.corner === "tl" || r.corner === "bl" ? r.startX + r.startW - w : r.startX;
+    let y = r.corner === "tl" || r.corner === "tr" ? r.startY + r.startH - h : r.startY;
+    x = clamp(x, 0, 1 - w); y = clamp(y, 0, 1 - h);
+    setStamps(items => items.map(s => s.id === r.id ? { ...s, w, h, x, y } : s));
+  }
+  function stopResizeHandle(e: PointerEvent<HTMLSpanElement>) {
+    if (resizeRef.current?.pointerId === e.pointerId) resizeRef.current = null;
   }
   function moveWithKeys(e: KeyboardEvent<HTMLButtonElement>, stamp: Stamp) {
     if (exporting) return;
@@ -400,7 +468,12 @@ export default function SignTool({ onBack, handoff }: { onBack?: () => void; han
               : <><div className={`page-shell ${placing ? "is-placing" : ""}`} ref={pageRef} style={{ width: displayWidth, height: displayHeight }} onClick={e => { if (!placing) { setSelected(null); return; } const r = e.currentTarget.getBoundingClientRect(); placeAt((e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height); }}>
                 <canvas ref={canvasRef} className="pdf-canvas" style={{ visibility: ready ? "visible" : "hidden" }} aria-label={`Aperçu de la page ${page}`} />
                 {!ready && <div className="page-loading" role="status">{rendering || loading ? <><LoaderCircle className="spin" />Affichage de la page…</> : <><FileText />Aperçu indisponible</>}</div>}
-                {ready && stamps.filter(s => s.page === page).map(s => <button type="button" key={s.id} className={`placed-signature ${selected === s.id ? "is-selected" : ""}`} style={{ left: `${s.x * 100}%`, top: `${s.y * 100}%`, width: `${s.w * 100}%`, height: `${s.h * 100}%` }} onClick={e => { e.stopPropagation(); setSelected(s.id); setPlacing(false); }} onFocus={() => setSelected(s.id)} onPointerDown={e => startDrag(e, s)} onPointerMove={moveDrag} onPointerUp={stopDrag} onPointerCancel={stopDrag} onLostPointerCapture={stopDrag} onKeyDown={e => moveWithKeys(e, s)} aria-label="Signature : faites glisser ou utilisez les flèches pour la déplacer" disabled={exporting}><img src={s.dataUrl} alt="Signature" draggable={false} />{selected === s.id && <><i className="handle top-left" /><i className="handle top-right" /><i className="handle bottom-left" /><i className="handle bottom-right" /></>}</button>)}
+                {ready && stamps.filter(s => s.page === page).map(s => <button type="button" key={s.id} className={`placed-signature ${selected === s.id ? "is-selected" : ""}`} style={{ left: `${s.x * 100}%`, top: `${s.y * 100}%`, width: `${s.w * 100}%`, height: `${s.h * 100}%` }} onClick={e => { e.stopPropagation(); setSelected(s.id); setPlacing(false); }} onFocus={() => setSelected(s.id)} onPointerDown={e => startDrag(e, s)} onPointerMove={moveDrag} onPointerUp={stopDrag} onPointerCancel={stopDrag} onLostPointerCapture={stopDrag} onKeyDown={e => moveWithKeys(e, s)} aria-label="Signature : faites glisser ou utilisez les flèches pour la déplacer" disabled={exporting}><img src={s.dataUrl} alt="Signature" draggable={false} />{selected === s.id && <>
+                  <span className="handle top-left" onPointerDown={e => startResizeHandle(e, s, "tl")} onPointerMove={moveResizeHandle} onPointerUp={stopResizeHandle} onPointerCancel={stopResizeHandle} onLostPointerCapture={stopResizeHandle} />
+                  <span className="handle top-right" onPointerDown={e => startResizeHandle(e, s, "tr")} onPointerMove={moveResizeHandle} onPointerUp={stopResizeHandle} onPointerCancel={stopResizeHandle} onLostPointerCapture={stopResizeHandle} />
+                  <span className="handle bottom-left" onPointerDown={e => startResizeHandle(e, s, "bl")} onPointerMove={moveResizeHandle} onPointerUp={stopResizeHandle} onPointerCancel={stopResizeHandle} onLostPointerCapture={stopResizeHandle} />
+                  <span className="handle bottom-right" onPointerDown={e => startResizeHandle(e, s, "br")} onPointerMove={moveResizeHandle} onPointerUp={stopResizeHandle} onPointerCancel={stopResizeHandle} onLostPointerCapture={stopResizeHandle} />
+                </>}</button>)}
               </div>{loading && <div className="loading-overlay" role="status"><LoaderCircle className="spin" /><span>Ouverture du fichier…</span></div>}</>}
             {dragOver && <div className="drop-overlay"><Upload size={30} /><strong>Déposez votre fichier ici</strong></div>}
           </div>

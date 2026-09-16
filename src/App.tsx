@@ -1,4 +1,5 @@
 import { useState } from "react";
+import AppBackground from "./app-background";
 import Home from "./home";
 import ToolsPage from "./tools-page";
 import DocsPage from "./docs-page";
@@ -48,6 +49,7 @@ export default function App() {
   const shellTab = (SHELL_TABS as readonly Mode[]).includes(mode) ? (mode as NavTab) : null;
 
   return <>
+    <AppBackground />
     <div style={{ display: mode === "home" ? "block" : "none" }}>
       <Home onSign={goSign} onEdit={goEdit} onScan={goScan} onCreate={goCreate} onCv={goCv} onOpenCvDraft={openCvDraft} onOpenDocDraft={openDocDraft} onSettings={goSettings} onSeeAllDocs={goDocs} />
     </div>

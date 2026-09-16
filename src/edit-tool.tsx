@@ -261,8 +261,9 @@ export default function EditTool({ onBack, onSignThis, handoff }: { onBack?: () 
   }
 
   function onStageDown(e: PointerEvent<HTMLDivElement>) {
-    if (!ready || exporting || e.button !== 0) return;
+    if (!ready || exporting || (e.button !== 0 && e.pointerType === "mouse")) return;
     if (tool !== "redact" && tool !== "highlight") return;
+    e.preventDefault();
     const rect = e.currentTarget.getBoundingClientRect();
     const x = clamp((e.clientX - rect.left) / rect.width, 0, 1);
     const y = clamp((e.clientY - rect.top) / rect.height, 0, 1);

@@ -45,7 +45,8 @@
     "cards": {
       "sign": {
         "title": "PDF unterschreiben",
-        "description": "Fügen Sie Ihre Unterschrift zu einem Dokument hinzu und laden Sie es signiert herunter."
+        "description": "Fügen Sie Ihre Unterschrift zu einem Dokument hinzu und laden Sie es signiert herunter.",
+        "short": "Unterschrift hinzufügen und herunterladen"
       },
       "edit": {
         "title": "PDF bearbeiten",
@@ -78,6 +79,32 @@
       "seeAll": "Alle anzeigen",
       "kindCv": "Lebenslauf",
       "kindDoc": "Dokument"
+    },
+    "carousel": {
+      "intro": {
+        "title": "Willkommen bei Easy Docs",
+        "desc": "Ihr Werkzeugkasten für alle Dokumente — nichts wird online gesendet."
+      },
+      "scan": {
+        "title": "Im Handumdrehen scannen",
+        "desc": "Fotografieren Sie ein Dokument und erhalten Sie ein scharfes, einsatzbereites PDF."
+      },
+      "edit": {
+        "title": "Mühelos bearbeiten",
+        "desc": "Text korrigieren, markieren, einen Bereich schwärzen — direkt im PDF."
+      },
+      "sign": {
+        "title": "Unterschreiben, wo Sie wollen",
+        "desc": "Fügen Sie Ihre Unterschrift hinzu und laden Sie Ihr signiertes Dokument herunter."
+      },
+      "create": {
+        "title": "Ein Dokument erstellen",
+        "desc": "Brief, Bescheinigung oder leere Seite — in wenigen Klicks verfassen und exportieren."
+      },
+      "cv": {
+        "title": "Erstellen Sie Ihren Lebenslauf",
+        "desc": "15 professionelle Vorlagen, vollständig anpassbar."
+      }
     }
   },
   "cv": {
