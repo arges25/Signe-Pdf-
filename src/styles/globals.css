@@ -104,19 +104,57 @@ body {
 }
 
 /* ===== Global animated backdrop (mounted once, sits behind every screen) ===== */
-.app-bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: linear-gradient(180deg, #eef1fb, #e8ecfa); }
-.app-shell { position: relative; z-index: 1; min-height: 100dvh; }
-.app-bg-blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.55; will-change: transform; }
-.app-bg-blob-1 { width: 52vw; height: 52vw; max-width: 620px; max-height: 620px; top: -14vw; left: -10vw; background: radial-gradient(circle, #a8c1ff, transparent 70%); animation: app-bg-float-1 34s ease-in-out infinite; }
-.app-bg-blob-2 { width: 44vw; height: 44vw; max-width: 520px; max-height: 520px; top: 8vw; right: -14vw; background: radial-gradient(circle, #c9b6ff, transparent 70%); animation: app-bg-float-2 40s ease-in-out infinite; }
-.app-bg-blob-3 { width: 48vw; height: 48vw; max-width: 560px; max-height: 560px; bottom: -16vw; left: 6vw; background: radial-gradient(circle, #b9d0ff, transparent 70%); animation: app-bg-float-3 46s ease-in-out infinite; }
-.app-bg-blob-4 { width: 36vw; height: 36vw; max-width: 420px; max-height: 420px; bottom: 4vw; right: 8vw; background: radial-gradient(circle, #ddd0ff, transparent 70%); animation: app-bg-float-4 38s ease-in-out infinite; }
-@keyframes app-bg-float-1 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(4vw, 3vw) scale(1.08); } }
-@keyframes app-bg-float-2 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-3vw, 4vw) scale(1.06); } }
-@keyframes app-bg-float-3 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(3vw, -3vw) scale(1.1); } }
-@keyframes app-bg-float-4 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-4vw, -2vw) scale(1.05); } }
-@media (prefers-reduced-motion: reduce) { .app-bg-blob { animation: none !important; } }
-@media (max-width: 640px) { .app-bg-blob { filter: blur(50px); opacity: 0.45; } }
+.app-bg {
+  position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
+  background: linear-gradient(165deg, #e4ebfd 0%, #eef1fb 35%, #ece4fb 70%, #e6ecfb 100%);
+}
+/* Every tool's own outer shell reveals a thin frame of the animated
+   background around its (untouched, fully opaque) working panels — the
+   only way to keep the background genuinely visible once a tool is open,
+   since those panels intentionally stay opaque for PDF/CV legibility. */
+.app-shell {
+  position: relative; z-index: 1; min-height: 100dvh; box-sizing: border-box;
+  padding: 10px 10px 0;
+}
+.cv-editor-shell { padding: 10px 10px 0; box-sizing: border-box; }
+@media (max-width: 640px) { .app-shell, .cv-editor-shell { padding: 6px 6px 0; } }
+
+.app-bg-blob {
+  position: absolute; border-radius: 50%; filter: blur(64px); opacity: 0.75; will-change: transform;
+  translate: calc(var(--px, 0) * var(--parallax, 0px)) calc(var(--py, 0) * var(--parallax, 0px));
+}
+.app-bg-blob-1 {
+  width: 58vw; height: 58vw; max-width: 680px; max-height: 680px; top: -16vw; left: -12vw;
+  background: radial-gradient(circle, #8fb0ff 0%, #8fb0ff55 45%, transparent 72%);
+  animation: app-bg-float-1 30s ease-in-out infinite; --parallax: 22px;
+}
+.app-bg-blob-2 {
+  width: 50vw; height: 50vw; max-width: 580px; max-height: 580px; top: 4vw; right: -16vw;
+  background: radial-gradient(circle, #b79bff 0%, #b79bff55 45%, transparent 72%);
+  animation: app-bg-float-2 36s ease-in-out infinite; --parallax: -18px;
+}
+.app-bg-blob-3 {
+  width: 54vw; height: 54vw; max-width: 620px; max-height: 620px; bottom: -18vw; left: 2vw;
+  background: radial-gradient(circle, #9ec2ff 0%, #9ec2ff55 45%, transparent 72%);
+  animation: app-bg-float-3 40s ease-in-out infinite; --parallax: 16px;
+}
+.app-bg-blob-4 {
+  width: 40vw; height: 40vw; max-width: 460px; max-height: 460px; bottom: 2vw; right: 4vw;
+  background: radial-gradient(circle, #cbb3ff 0%, #cbb3ff55 45%, transparent 72%);
+  animation: app-bg-float-4 33s ease-in-out infinite; --parallax: -26px;
+}
+.app-bg-blob-5 {
+  width: 30vw; height: 30vw; max-width: 340px; max-height: 340px; top: 38vw; left: 40vw;
+  background: radial-gradient(circle, #ffffff 0%, #cfe0ff55 50%, transparent 75%);
+  animation: app-bg-float-5 26s ease-in-out infinite; --parallax: 34px; opacity: 0.55;
+}
+@keyframes app-bg-float-1 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(5vw, 4vw) scale(1.1); } }
+@keyframes app-bg-float-2 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-4vw, 5vw) scale(1.08); } }
+@keyframes app-bg-float-3 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(4vw, -4vw) scale(1.12); } }
+@keyframes app-bg-float-4 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-5vw, -3vw) scale(1.06); } }
+@keyframes app-bg-float-5 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-3vw, 3vw) scale(1.15); } }
+@media (prefers-reduced-motion: reduce) { .app-bg-blob { animation: none !important; translate: none !important; } }
+@media (max-width: 640px) { .app-bg-blob { filter: blur(46px); } }
 button, input { font: inherit; }
 button, a, [role="button"] { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 button:not(:disabled), [role="button"]:not(:disabled) { cursor: pointer; }
@@ -646,10 +684,10 @@ h1 { font-size: 30px; font-weight: 750; letter-spacing: -1px; line-height: 1.5; 
 @media (min-width: 860px) { .ed-container { max-width: 720px; padding: 0 32px; } }
 
 .ed-header { display: flex; align-items: flex-start; justify-content: space-between; padding: 28px 0 22px; gap: 12px; }
-.ed-wordmark { font-size: 30px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.1; }
-.ed-wordmark-easy { color: var(--ed-navy); }
-.ed-wordmark-docs { background: var(--ed-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.ed-tagline { margin: 4px 0 0; font-size: 14px; color: var(--ed-text-secondary); }
+.ed-logo-full { display: block; }
+.ed-logo-full img { height: 56px; width: auto; display: block; }
+.ed-tagline { margin: 6px 0 0; font-size: 14px; color: var(--ed-text-secondary); }
+@media (max-width: 380px) { .ed-logo-full img { height: 46px; } }
 .ed-avatar {
   flex-shrink: 0; width: 42px; height: 42px; border-radius: 999px; border: 1px solid var(--ed-border);
   background: linear-gradient(135deg, #dbe4ff, #ece1ff); color: var(--ed-blue);
@@ -788,10 +826,9 @@ h1 { font-size: 30px; font-weight: 750; letter-spacing: -1px; line-height: 1.5; 
 @media (min-width: 860px) { .ed-bottom-nav { max-width: 720px; left: 50%; transform: translateX(-50%); border-radius: 24px 24px 0 0; border-left: 1px solid var(--ed-border); border-right: 1px solid var(--ed-border); } }
 
 /* Shared "Easy Docs" wordmark used in every tool header (site-header) */
-.ed-tool-wordmark { font-size: 22px; font-weight: 800; letter-spacing: -0.6px; line-height: 1; white-space: nowrap; }
-.ed-tool-wordmark .ed-wordmark-easy { color: var(--ed-navy); }
-.ed-tool-wordmark .ed-wordmark-docs { background: var(--ed-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
-@media (max-width: 640px) { .ed-tool-wordmark { font-size: 19px; } }
+.ed-tool-wordmark { display: inline-flex; align-items: center; }
+.ed-tool-wordmark img { height: 24px; width: auto; display: block; }
+@media (max-width: 640px) { .ed-tool-wordmark img { height: 20px; } }
 
 @media (max-width: 380px) {
   .ed-wordmark { font-size: 26px; }

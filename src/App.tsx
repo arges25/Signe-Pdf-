@@ -32,19 +32,25 @@ export default function App() {
   const [cvDraftId, setCvDraftId] = useState<string | undefined>(undefined);
   const [docDraftId, setDocDraftId] = useState<string | undefined>(undefined);
 
-  function goHome() { setMode("home"); }
-  function goTools() { setMode("tools"); }
-  function goDocs() { setMode("docs"); }
-  function goSettings() { setMode("settings"); }
-  function goSign() { setVisitedSign(true); setMode("sign"); }
-  function goEdit() { setVisitedEdit(true); setMode("edit"); }
-  function goScan() { setVisitedScan(true); setMode("scan"); }
-  function goCreate() { setVisitedCreate(true); setMode("create"); }
-  function goCv() { setVisitedCv(true); setMode("cv"); }
-  function signThis(file: File) { setSignHandoff({ file, token: Date.now() }); setVisitedSign(true); setMode("sign"); }
-  function editThis(file: File) { setEditHandoff({ file, token: Date.now() }); setVisitedEdit(true); setMode("edit"); }
-  function openCvDraft(id: string) { setCvDraftId(id); setVisitedCv(true); setMode("cv"); }
-  function openDocDraft(id: string) { setDocDraftId(id); setVisitedCreate(true); setMode("create"); }
+  // The 9 screens are display:none-toggled siblings of the same document,
+  // not real navigations, so the window's scroll position would otherwise
+  // leak from whatever was scrolled on the previous screen into the newly
+  // shown one (e.g. a scrolled-down home page could leave a freshly opened
+  // tool's content rendered above the fold). Every navigation resets it.
+  function go(next: Mode) { setMode(next); window.scrollTo(0, 0); }
+  function goHome() { go("home"); }
+  function goTools() { go("tools"); }
+  function goDocs() { go("docs"); }
+  function goSettings() { go("settings"); }
+  function goSign() { setVisitedSign(true); go("sign"); }
+  function goEdit() { setVisitedEdit(true); go("edit"); }
+  function goScan() { setVisitedScan(true); go("scan"); }
+  function goCreate() { setVisitedCreate(true); go("create"); }
+  function goCv() { setVisitedCv(true); go("cv"); }
+  function signThis(file: File) { setSignHandoff({ file, token: Date.now() }); setVisitedSign(true); go("sign"); }
+  function editThis(file: File) { setEditHandoff({ file, token: Date.now() }); setVisitedEdit(true); go("edit"); }
+  function openCvDraft(id: string) { setCvDraftId(id); setVisitedCv(true); go("cv"); }
+  function openDocDraft(id: string) { setDocDraftId(id); setVisitedCreate(true); go("create"); }
 
   const shellTab = (SHELL_TABS as readonly Mode[]).includes(mode) ? (mode as NavTab) : null;
 

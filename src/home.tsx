@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { ChevronRight, FileEdit, FilePlus2, IdCard, PenLine, ScanLine, Sparkles, User } from "lucide-react";
 import { listRecentDocuments, formatRelativeDate, type RecentDocument } from "./lib/recent-documents";
 
+const BASE = import.meta.env.BASE_URL;
+
 function PresentationCarousel() {
   const { t } = useTranslation();
   const trackRef = useRef<HTMLDivElement>(null);
@@ -77,7 +79,10 @@ export default function Home({ onSign, onEdit, onScan, onCreate, onCv, onOpenCvD
     <div className="ed-container">
       <header className="ed-header">
         <div>
-          <p className="ed-wordmark"><span className="ed-wordmark-easy">Easy</span> <span className="ed-wordmark-docs">Docs</span></p>
+          <picture className="ed-logo-full">
+            <source srcSet={`${BASE}brand/easy-docs-logo.webp`} type="image/webp" />
+            <img src={`${BASE}brand/easy-docs-logo.png`} alt="Easy Docs" />
+          </picture>
           <p className="ed-tagline">{t("home.tagline")}</p>
         </div>
         <button type="button" className="ed-avatar" aria-label={t("nav.settings")} onClick={onSettings}>
