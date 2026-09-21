@@ -36,6 +36,7 @@ export default function ScanTool({ onBack, onEditThis, onSignThis }: {
   const busyRef = useRef(false);
   const objectUrls = useRef<Set<string>>(new Set());
   const cornerDragRef = useRef<{ index: number; pointerId: number; rect: DOMRect } | null>(null);
+  const [magnifier, setMagnifier] = useState<{ xPct: number; yPct: number; rectW: number; rectH: number } | null>(null);
 
   const [pages, setPages] = useState<ScanPage[]>([]);
   const [view, setView] = useState<View>("list");
@@ -173,10 +174,12 @@ export default function ScanTool({ onBack, onEditThis, onSignThis }: {
     const x = clamp((e.clientX - drag.rect.left) / drag.rect.width, 0, 1);
     const y = clamp((e.clientY - drag.rect.top) / drag.rect.height, 0, 1);
     setEditingCorners(corners => corners ? corners.map((c, i) => i === drag.index ? { x, y } : c) as Quad : corners);
+    setMagnifier({ xPct: x, yPct: y, rectW: drag.rect.width, rectH: drag.rect.height });
   }
   function stopCornerDrag(e: PointerEvent<HTMLButtonElement>) {
     if (cornerDragRef.current?.pointerId !== e.pointerId) return;
     cornerDragRef.current = null;
+    setMagnifier(null);
     if (editingSource && editingCorners) void refreshEditorPreview(editingSource, editingCorners, editingFilter);
   }
 
@@ -327,7 +330,7 @@ export default function ScanTool({ onBack, onEditThis, onSignThis }: {
 
       {view === "editor" && active && editingCorners && <div className="scan-editor">
         <div className="scan-editor-stage">
-          <CornerStage imageUrl={editingImageUrl} corners={editingCorners} onCornerDown={startCornerDrag} onCornerMove={moveCornerDrag} onCornerUp={stopCornerDrag} />
+          <CornerStage imageUrl={editingImageUrl} corners={editingCorners} magnifier={magnifier} onCornerDown={startCornerDrag} onCornerMove={moveCornerDrag} onCornerUp={stopCornerDrag} />
         </div>
         <div className="scan-editor-side">
           <div className="scan-editor-toolbar">
@@ -370,9 +373,10 @@ export default function ScanTool({ onBack, onEditThis, onSignThis }: {
   </div>;
 }
 
-function CornerStage({ imageUrl, corners, onCornerDown, onCornerMove, onCornerUp }: {
+function CornerStage({ imageUrl, corners, magnifier, onCornerDown, onCornerMove, onCornerUp }: {
   imageUrl: string;
   corners: Quad;
+  magnifier: { xPct: number; yPct: number; rectW: number; rectH: number } | null;
   onCornerDown: (e: PointerEvent<HTMLButtonElement>, index: number, stageEl: HTMLDivElement) => void;
   onCornerMove: (e: PointerEvent<HTMLButtonElement>) => void;
   onCornerUp: (e: PointerEvent<HTMLButtonElement>) => void;
@@ -386,5 +390,40 @@ function CornerStage({ imageUrl, corners, onCornerDown, onCornerMove, onCornerUp
     </svg>
     {corners.map((c: Point, i: number) => <button key={i} type="button" className="corner-handle" style={{ left: `${c.x * 100}%`, top: `${c.y * 100}%` }} aria-label={`Coin ${i + 1}, faites glisser pour l’ajuster`}
       onPointerDown={e => { if (stageRef.current) onCornerDown(e, i, stageRef.current); }} onPointerMove={onCornerMove} onPointerUp={onCornerUp} onPointerCancel={onCornerUp} onLostPointerCapture={onCornerUp} />)}
+    {magnifier && imageUrl && <CornerMagnifier imageUrl={imageUrl} {...magnifier} />}
+  </div>;
+}
+
+// Loupe size in CSS px — kept as a single JS constant (rather than a
+// responsive CSS value) so the on-screen size always matches the position
+// math below exactly, on both phone and tablet.
+const MAGNIFIER_SIZE = 128;
+const MAGNIFIER_ZOOM = 2.6;
+const MAGNIFIER_GAP = 20; // clearance between the touched point and the loupe
+
+// Floating zoomed preview shown near the finger while a corner is being
+// dragged — the same idea as the native magnifier iOS/Android show for
+// text selection, and what most scanner apps (Office Lens, Adobe Scan…)
+// use for this exact precision-placement problem. It never sits on top of
+// the point being moved: it's offset above the touch point by default,
+// and flips below when there isn't enough room (near the top edge), while
+// staying clamped horizontally within the stage.
+function CornerMagnifier({ imageUrl, xPct, yPct, rectW, rectH }: { imageUrl: string; xPct: number; yPct: number; rectW: number; rectH: number }) {
+  if (!rectW || !rectH) return null;
+  const pointX = xPct * rectW;
+  const pointY = yPct * rectH;
+  const half = MAGNIFIER_SIZE / 2;
+  const wantsAbove = pointY - MAGNIFIER_SIZE - MAGNIFIER_GAP >= 0;
+  const centerY = wantsAbove ? pointY - half - MAGNIFIER_GAP : pointY + half + MAGNIFIER_GAP;
+  const centerX = clamp(pointX, half + 4, Math.max(half + 4, rectW - half - 4));
+  const bgW = rectW * MAGNIFIER_ZOOM;
+  const bgH = rectH * MAGNIFIER_ZOOM;
+  return <div className="corner-magnifier" style={{
+    left: centerX, top: centerY, width: MAGNIFIER_SIZE, height: MAGNIFIER_SIZE,
+    backgroundImage: `url(${imageUrl})`,
+    backgroundSize: `${bgW}px ${bgH}px`,
+    backgroundPosition: `${-(pointX * MAGNIFIER_ZOOM - half)}px ${-(pointY * MAGNIFIER_ZOOM - half)}px`,
+  }}>
+    <span className="corner-magnifier-crosshair" />
   </div>;
 }

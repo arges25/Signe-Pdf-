@@ -417,6 +417,25 @@ h1 { font-size: 30px; font-weight: 750; letter-spacing: -1px; line-height: 1.5; 
 .corner-stage-overlay { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .corner-polygon { fill: #2457ea26; stroke: #2457ea; stroke-width: 0.6; vector-effect: non-scaling-stroke; }
 .corner-handle { position: absolute; width: 30px; height: 30px; margin: -15px; border-radius: 50%; background: #2457eacc; border: 3px solid #fff; box-shadow: 0 2px 8px #0006; touch-action: none; padding: 0; }
+/* Floating magnifier shown while a corner handle is being dragged — see
+   CornerMagnifier in scan-tool.tsx for the positioning math that keeps it
+   clear of the point it's zoomed in on. Pure background-image zoom of the
+   same photo, no canvas/extra image decode. */
+.corner-magnifier {
+  position: absolute; transform: translate(-50%, -50%); border-radius: 50%;
+  border: 3px solid #fff; box-shadow: 0 6px 20px #000a, 0 0 0 1px #0003;
+  background-repeat: no-repeat; background-color: #171f2e;
+  pointer-events: none; z-index: 5; overflow: hidden;
+}
+.corner-magnifier-crosshair {
+  position: absolute; top: 50%; left: 50%; width: 16px; height: 16px; transform: translate(-50%, -50%);
+  border: 2px solid #ff5b3c; border-radius: 50%; box-shadow: 0 0 0 1px #fff, 0 1px 3px #0006;
+}
+.corner-magnifier-crosshair::before, .corner-magnifier-crosshair::after {
+  content: ""; position: absolute; background: #ff5b3c; box-shadow: 0 0 0 1px #fff;
+}
+.corner-magnifier-crosshair::before { left: 50%; top: -7px; bottom: -7px; width: 1.5px; transform: translateX(-50%); }
+.corner-magnifier-crosshair::after { top: 50%; left: -7px; right: -7px; height: 1.5px; transform: translateY(-50%); }
 .scan-editor-side { display: flex; flex-direction: column; gap: 16px; background: #fff; border: 1px solid #e0e6ef; border-radius: 14px; padding: 18px; }
 .scan-editor-toolbar { display: flex; gap: 8px; flex-wrap: wrap; }
 .scan-editor-toolbar button { font-size: 12px; height: 36px; flex: 1; }
